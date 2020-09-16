@@ -9,45 +9,45 @@ public class DayOfWeek {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column
-    private Integer id_;
+    private Integer id;
 
     @Column(nullable = false)
-    private String name_;
+    private String name;
 
     @OneToMany
-    private List<ElementInDay> elementsInDay_;
+    private List<ElementInDay> elementsInDay;
 
     public DayOfWeek() {
 
     }
 
     public DayOfWeek(Integer id, String name, List<ElementInDay> elementsInDay) {
-        this.id_ = id;
-        this.name_ = name;
-        this.elementsInDay_ = elementsInDay;
+        this.id = id;
+        this.name = name;
+        this.elementsInDay = elementsInDay;
     }
 
     public Integer getId() {
-        return id_;
+        return id;
     }
 
     public void setId(Integer id) {
-        this.id_ = id;
+        this.id = id;
     }
 
     public String getName() {
-        return name_;
+        return name;
     }
 
     public void setName(String name) {
-        this.name_ = name;
+        this.name = name;
     }
 
     public List<ElementInDay> getElementsInDay() {
-        return elementsInDay_;
+        return elementsInDay;
     }
 
     public void setElementsInDay(List<ElementInDay> elementsInDay) {
-        this.elementsInDay_ = elementsInDay;
+        this.elementsInDay = elementsInDay;
     }
 }

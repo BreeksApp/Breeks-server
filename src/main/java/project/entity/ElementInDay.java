@@ -8,69 +8,69 @@ public class ElementInDay {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column
-    private Integer id_;
+    private Integer id;
 
     @Column(nullable = false)
-    private String tagColor_;
+    private String tagColor;
 
     @Column(nullable = false)
-    private String mainText_;
+    private String mainText;
 
     @Column(nullable = false)
-    private String timeFrom_;
+    private String timeFrom;
 
     @Column(nullable = false)
-    private String timeTo_;
+    private String timeTo;
 
     public ElementInDay() {
 
     }
 
     public ElementInDay(Integer id, String tagColor, String mainText, String timeFrom, String timeTo) {
-        this.id_ = id;
-        this.tagColor_ = tagColor;
-        this.mainText_ = mainText;
-        this.timeFrom_ = timeFrom;
-        this.timeTo_ = timeTo;
+        this.id = id;
+        this.tagColor = tagColor;
+        this.mainText = mainText;
+        this.timeFrom = timeFrom;
+        this.timeTo = timeTo;
     }
 
     public Integer getId() {
-        return id_;
+        return id;
     }
 
     public void setId(Integer id) {
-        this.id_ = id;
+        this.id = id;
     }
 
     public String getTagColor() {
-        return tagColor_;
+        return tagColor;
     }
 
     public void setTagColor(String tagColor) {
-        this.tagColor_ = tagColor;
+        this.tagColor = tagColor;
     }
 
     public String getMainText() {
-        return mainText_;
+        return mainText;
     }
 
     public void setMainText(String mainText) {
-        this.mainText_ = mainText;
+        this.mainText = mainText;
     }
 
     public String getTimeFrom() {
-        return timeFrom_;
+        return timeFrom;
     }
 
     public void setTimeFrom(String timeFrom) {
-        this.timeFrom_ = timeFrom;
+        this.timeFrom = timeFrom;
     }
 
     public String getTimeTo() {
-        return timeTo_;
+        return timeTo;
     }
 
     public void setTimeTo(String timeTo) {
-        this.timeTo_ = timeTo;
+        this.timeTo = timeTo;
     }
 }

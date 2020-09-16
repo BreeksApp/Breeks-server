@@ -8,33 +8,33 @@ public class ZoneOfBreeksCondition {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column
-    private Integer id_;
+    private Integer id;
 
     @Column(nullable = false)
-    private Boolean state_;
+    private Boolean state;
 
     public ZoneOfBreeksCondition() {
 
     }
 
     public ZoneOfBreeksCondition(Integer id, Boolean state) {
-        this.id_ = id;
-        this.state_ = state;
+        this.id = id;
+        this.state = state;
     }
 
     public Integer getId() {
-        return id_;
+        return id;
     }
 
     public void setId(Integer id) {
-        this.id_ = id;
+        this.id = id;
     }
 
     public Boolean getState() {
-        return state_;
+        return state;
     }
 
     public void setState(Boolean state) {
-        this.state_ = state;
+        this.state = state;
     }
 }

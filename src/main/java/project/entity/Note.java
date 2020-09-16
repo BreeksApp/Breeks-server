@@ -8,45 +8,45 @@ public class Note {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column
-    private Integer id_;
+    private Integer id;
 
     @Column
-    private String text_;
+    private String text;
 
     @Column
-    private String effects_;
+    private String effects;
 
     public Note() {
 
     }
 
     public Note(Integer id, String text, String effects) {
-        this.id_ = id;
-        this.text_ = text;
-        this.effects_ = effects;
+        this.id = id;
+        this.text = text;
+        this.effects = effects;
     }
 
     public Integer getId() {
-        return id_;
+        return id;
     }
 
     public void setId(Integer id) {
-        this.id_ = id;
+        this.id = id;
     }
 
     public String getText() {
-        return text_;
+        return text;
     }
 
     public void setText(String text) {
-        this.text_ = text;
+        this.text = text;
     }
 
     public String getEffects() {
-        return effects_;
+        return effects;
     }
 
     public void setEffects(String effects) {
-        this.effects_ = effects;
+        this.effects = effects;
     }
 }

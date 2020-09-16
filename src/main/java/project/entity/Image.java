@@ -8,33 +8,33 @@ public class Image {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column
-    private Integer id_;
+    private Integer id;
 
     @Column(nullable = false)
-    private String linkToImage_;
+    private String linkToImage;
 
     public Image() {
 
     }
 
     public Image(Integer id, String linkToImage) {
-        this.id_ = id;
-        this.linkToImage_ = linkToImage;
+        this.id = id;
+        this.linkToImage = linkToImage;
     }
 
     public Integer getId() {
-        return id_;
+        return id;
     }
 
     public void setId(Integer id) {
-        this.id_ = id;
+        this.id = id;
     }
 
     public String getLinkToImage() {
-        return linkToImage_;
+        return linkToImage;
     }
 
     public void setLinkToImage(String linkToImage) {
-        this.linkToImage_ = linkToImage;
+        this.linkToImage = linkToImage;
     }
 }

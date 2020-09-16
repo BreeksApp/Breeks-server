@@ -9,19 +9,19 @@ public class Week {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column
-    private Integer id_;
+    private Integer id;
 
     @OneToMany
-    private List<DayOfWeek> daysOfWeek_;
+    private List<DayOfWeek> daysOfWeek;
 
     @OneToMany
-    private List<ZoneOfBreeks> zonesOfWeek_;
+    private List<ZoneOfBreeks> zonesOfWeek;
 
     @OneToMany
-    private List<Note> notesOfWeek_;
+    private List<Note> notesOfWeek;
 
     @OneToOne
-    private Image imageOfWeek_;
+    private Image imageOfWeek;
 
     public Week() {
 
@@ -29,50 +29,50 @@ public class Week {
 
     public Week(Integer id, List<DayOfWeek> daysOfWeek, List<ZoneOfBreeks> zonesOfWeek,
                 List<Note> notesOfWeek, Image imageOfWeek) {
-        this.id_ = id;
-        this.daysOfWeek_ = daysOfWeek;
-        this.zonesOfWeek_ = zonesOfWeek;
-        this.notesOfWeek_ = notesOfWeek;
-        this.imageOfWeek_ = imageOfWeek;
+        this.id = id;
+        this.daysOfWeek = daysOfWeek;
+        this.zonesOfWeek = zonesOfWeek;
+        this.notesOfWeek = notesOfWeek;
+        this.imageOfWeek = imageOfWeek;
     }
 
     public Integer getId() {
-        return id_;
+        return id;
     }
 
     public void setId(Integer id) {
-        this.id_ = id;
+        this.id = id;
     }
 
     public List<DayOfWeek> getDaysOfWeek() {
-        return daysOfWeek_;
+        return daysOfWeek;
     }
 
     public void setDaysOfWeek(List<DayOfWeek> daysOfWeek) {
-        this.daysOfWeek_ = daysOfWeek;
+        this.daysOfWeek = daysOfWeek;
     }
 
     public List<ZoneOfBreeks> getZonesOfWeek() {
-        return zonesOfWeek_;
+        return zonesOfWeek;
     }
 
     public void setZonesOfWeek(List<ZoneOfBreeks> zonesOfWeek) {
-        this.zonesOfWeek_ = zonesOfWeek;
+        this.zonesOfWeek = zonesOfWeek;
     }
 
     public List<Note> getNotesOfWeek() {
-        return notesOfWeek_;
+        return notesOfWeek;
     }
 
     public void setNotesOfWeek(List<Note> notesOfWeek) {
-        this.notesOfWeek_ = notesOfWeek;
+        this.notesOfWeek = notesOfWeek;
     }
 
     public Image getImageOfWeek() {
-        return imageOfWeek_;
+        return imageOfWeek;
     }
 
     public void setImageOfWeek(Image imageOfWeek) {
-        this.imageOfWeek_ = imageOfWeek;
+        this.imageOfWeek = imageOfWeek;
     }
 }

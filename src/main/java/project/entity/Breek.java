@@ -8,45 +8,45 @@ public class Breek {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column
-    private Integer id_;
+    private Integer id;
 
     @Column(nullable = false)
-    private String linkToEmoji_;
+    private String linkToEmoji;
 
     @Column(nullable = false)
-    private Integer state_;
+    private Integer state;
 
     public Breek() {
 
     }
 
     public Breek(Integer id, String linkToEmoji, Integer state) {
-        this.id_ = id;
-        this.linkToEmoji_ = linkToEmoji;
-        this.state_ = state;
+        this.id = id;
+        this.linkToEmoji = linkToEmoji;
+        this.state = state;
     }
 
     public Integer getId() {
-        return id_;
+        return id;
     }
 
     public void setId(Integer id) {
-        this.id_ = id;
+        this.id = id;
     }
 
     public String getLinkToEmoji() {
-        return linkToEmoji_;
+        return linkToEmoji;
     }
 
     public void setLinkToEmoji(String linkToEmoji) {
-        this.linkToEmoji_ = linkToEmoji;
+        this.linkToEmoji = linkToEmoji;
     }
 
     public Integer getState() {
-        return state_;
+        return state;
     }
 
     public void setState(Integer state) {
-        this.state_ = state;
+        this.state = state;
     }
 }

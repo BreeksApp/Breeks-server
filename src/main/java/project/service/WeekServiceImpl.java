@@ -3,6 +3,7 @@ package project.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import project.entity.Week;
+import project.exception.NotAddedToDatabase;
 import project.repository.WeekRepository;
 
 import java.util.List;
@@ -14,27 +15,41 @@ public class WeekServiceImpl implements WeekService {
     private WeekRepository weekRepository;
 
     @Override
-    public boolean addWeek(Week week) {
-        return false;
+    public void addWeek(Week week) throws NotAddedToDatabase {
+        weekRepository.save(week);
     }
 
     @Override
     public boolean deleteWeek(Integer id) {
-        return false;
+        if (weekRepository.existsById(id))
+        {
+            weekRepository.delete(weekRepository.findById(id).get());
+            return true;
+        }
+        else return false;
     }
 
     @Override
-    public boolean editWeek(Integer id, Week newWeek) {
-        return false;
+    public boolean editWeek(Integer id, Week newWeek) throws NotAddedToDatabase {
+        if (weekRepository.existsById(id))
+        {
+            newWeek.setId(id);
+            weekRepository.save(newWeek);
+            return true;
+        }
+        else return false;
     }
 
     @Override
     public List<Week> listOfWeeks() {
-        return null;
+        return (List<Week>)weekRepository.findAll();
     }
 
     @Override
     public Week findWeek(Integer id) {
+        if (weekRepository.existsById(id)) {
+            return weekRepository.findById(id).get();
+        }
         return null;
     }
 }

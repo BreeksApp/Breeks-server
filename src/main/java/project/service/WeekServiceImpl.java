@@ -21,8 +21,7 @@ public class WeekServiceImpl implements WeekService {
 
     @Override
     public boolean deleteWeek(Integer id) {
-        if (weekRepository.existsById(id))
-        {
+        if (weekRepository.existsById(id)) {
             weekRepository.delete(weekRepository.findById(id).get());
             return true;
         }
@@ -31,8 +30,7 @@ public class WeekServiceImpl implements WeekService {
 
     @Override
     public boolean editWeek(Integer id, Week newWeek) throws NotAddedToDatabase {
-        if (weekRepository.existsById(id))
-        {
+        if (weekRepository.existsById(id)) {
             newWeek.setId(id);
             weekRepository.save(newWeek);
             return true;

@@ -19,8 +19,7 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public boolean deleteImage(Integer id) {
-        if (imageRepository.existsById(id))
-        {
+        if (imageRepository.existsById(id)) {
             imageRepository.delete(imageRepository.findById(id).get());
             return true;
         }
@@ -29,8 +28,7 @@ public class ImageServiceImpl implements ImageService {
 
     @Override
     public boolean editImage(Integer id, Image newImage) throws NotAddedToDatabase {
-        if (imageRepository.existsById(id))
-        {
+        if (imageRepository.existsById(id)) {
             newImage.setId(id);
             imageRepository.save(newImage);
             return true;

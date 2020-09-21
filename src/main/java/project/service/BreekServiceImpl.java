@@ -21,8 +21,7 @@ public class BreekServiceImpl implements BreekService{
 
     @Override
     public boolean deleteBreek(Integer id) {
-        if (breekRepository.existsById(id))
-        {
+        if (breekRepository.existsById(id)) {
             breekRepository.delete(breekRepository.findById(id).get());
             return true;
         }
@@ -31,8 +30,7 @@ public class BreekServiceImpl implements BreekService{
 
     @Override
     public boolean editBreek(Integer id, Breek newBreek) throws NotAddedToDatabase {
-        if (breekRepository.existsById(id))
-        {
+        if (breekRepository.existsById(id)) {
             newBreek.setId(id);
             breekRepository.save(newBreek);
             return true;

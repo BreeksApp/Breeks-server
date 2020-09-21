@@ -21,8 +21,7 @@ public class NoteServiceImpl implements NoteService {
 
     @Override
     public boolean deleteNote(Integer id) {
-        if (noteRepository.existsById(id))
-        {
+        if (noteRepository.existsById(id)) {
             noteRepository.delete(noteRepository.findById(id).get());
             return true;
         }
@@ -31,8 +30,7 @@ public class NoteServiceImpl implements NoteService {
 
     @Override
     public boolean editNote(Integer id, Note newNote) throws NotAddedToDatabase {
-        if (noteRepository.existsById(id))
-        {
+        if (noteRepository.existsById(id)) {
             newNote.setId(id);
             noteRepository.save(newNote);
             return true;

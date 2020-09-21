@@ -21,8 +21,7 @@ public class ElementInDayServiceImpl implements ElementInDayService {
 
     @Override
     public boolean deleteElement(Integer id) {
-        if (elementInDayRepository.existsById(id))
-        {
+        if (elementInDayRepository.existsById(id)) {
             elementInDayRepository.delete(elementInDayRepository.findById(id).get());
             return true;
         }
@@ -31,8 +30,7 @@ public class ElementInDayServiceImpl implements ElementInDayService {
 
     @Override
     public boolean editElement(Integer id, ElementInDay newElement) throws NotAddedToDatabase {
-        if (elementInDayRepository.existsById(id))
-        {
+        if (elementInDayRepository.existsById(id)) {
             newElement.setId(id);
             elementInDayRepository.save(newElement);
             return true;

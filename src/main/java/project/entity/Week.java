@@ -12,9 +12,6 @@ public class Week {
     private Integer id;
 
     @OneToMany
-    private List<DayOfWeek> daysOfWeek;
-
-    @OneToMany
     private List<ZoneOfBreeks> zonesOfWeek;
 
     @OneToMany
@@ -27,10 +24,9 @@ public class Week {
 
     }
 
-    public Week(Integer id, List<DayOfWeek> daysOfWeek, List<ZoneOfBreeks> zonesOfWeek,
+    public Week(Integer id, List<ZoneOfBreeks> zonesOfWeek,
                 List<Note> notesOfWeek, Image imageOfWeek) {
-        this.id = id;
-        this.daysOfWeek = daysOfWeek;
+        this.id = id;;
         this.zonesOfWeek = zonesOfWeek;
         this.notesOfWeek = notesOfWeek;
         this.imageOfWeek = imageOfWeek;
@@ -42,14 +38,6 @@ public class Week {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public List<DayOfWeek> getDaysOfWeek() {
-        return daysOfWeek;
-    }
-
-    public void setDaysOfWeek(List<DayOfWeek> daysOfWeek) {
-        this.daysOfWeek = daysOfWeek;
     }
 
     public List<ZoneOfBreeks> getZonesOfWeek() {

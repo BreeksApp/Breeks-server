@@ -25,18 +25,24 @@ public class ElementInDay {
     @Column(nullable = false)
     private Integer tagDay;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
     public ElementInDay() {
 
     }
 
     public ElementInDay(Integer id, String tagColor, String mainText,
-                        String timeFrom, String timeTo, Integer tagDay) {
+                        String timeFrom, String timeTo, Integer tagDay,
+                        User user) {
         this.id = id;
         this.tagColor = tagColor;
         this.mainText = mainText;
         this.timeFrom = timeFrom;
         this.timeTo = timeTo;
         this.tagDay = tagDay;
+        this.user = user;
     }
 
     public Integer getId() {
@@ -85,5 +91,13 @@ public class ElementInDay {
 
     public void setTagDay(Integer tagDay) {
         this.tagDay = tagDay;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

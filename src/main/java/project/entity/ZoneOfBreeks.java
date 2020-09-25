@@ -17,19 +17,23 @@ public class ZoneOfBreeks {
     @OneToMany
     private List<ZoneOfBreeksCondition> conditions;
 
+    @Column(nullable = false)
+    private String linkToEmoji;
+
     @OneToMany
-    private List<Breek> breeks;
+    private List<ZoneOfBreeksStates> states;
 
     public ZoneOfBreeks() {
 
     }
 
     public ZoneOfBreeks(Integer id, String description, List<ZoneOfBreeksCondition> conditions,
-                        List<Breek> breeks) {
+                        String linkToEmoji, List<ZoneOfBreeksStates> states) {
         this.id = id;
         this.description = description;
         this.conditions = conditions;
-        this.breeks = breeks;
+        this.linkToEmoji = linkToEmoji;
+        this.states = states;
     }
 
     public Integer getId() {
@@ -56,11 +60,19 @@ public class ZoneOfBreeks {
         this.conditions = conditions;
     }
 
-    public List<Breek> getBreeks() {
-        return breeks;
+    public String getLinkToEmoji() {
+        return linkToEmoji;
     }
 
-    public void setBreeks(List<Breek> breeks) {
-        this.breeks = breeks;
+    public void setLinkToEmoji(String linkToEmoji) {
+        this.linkToEmoji = linkToEmoji;
+    }
+
+    public List<ZoneOfBreeksStates> getStates() {
+        return states;
+    }
+
+    public void setStates(List<ZoneOfBreeksStates> states) {
+        this.states = states;
     }
 }

@@ -22,16 +22,21 @@ public class ElementInDay {
     @Column(nullable = false)
     private String timeTo;
 
+    @Column(nullable = false)
+    private Integer tagDay;
+
     public ElementInDay() {
 
     }
 
-    public ElementInDay(Integer id, String tagColor, String mainText, String timeFrom, String timeTo) {
+    public ElementInDay(Integer id, String tagColor, String mainText,
+                        String timeFrom, String timeTo, Integer tagDay) {
         this.id = id;
         this.tagColor = tagColor;
         this.mainText = mainText;
         this.timeFrom = timeFrom;
         this.timeTo = timeTo;
+        this.tagDay = tagDay;
     }
 
     public Integer getId() {
@@ -72,5 +77,13 @@ public class ElementInDay {
 
     public void setTimeTo(String timeTo) {
         this.timeTo = timeTo;
+    }
+
+    public Integer getTagDay() {
+        return tagDay;
+    }
+
+    public void setTagDay(Integer tagDay) {
+        this.tagDay = tagDay;
     }
 }

@@ -13,13 +13,21 @@ public class Image {
     @Column(nullable = false)
     private String linkToImage;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    private Week week;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
+
     public Image() {
 
     }
 
-    public Image(Integer id, String linkToImage) {
+    public Image(Integer id, String linkToImage, Week week, User user) {
         this.id = id;
         this.linkToImage = linkToImage;
+        this.week = week;
+        this.user = user;
     }
 
     public Integer getId() {
@@ -36,5 +44,21 @@ public class Image {
 
     public void setLinkToImage(String linkToImage) {
         this.linkToImage = linkToImage;
+    }
+
+    public Week getWeek() {
+        return week;
+    }
+
+    public void setWeek(Week week) {
+        this.week = week;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

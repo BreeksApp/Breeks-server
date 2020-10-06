@@ -1,7 +1,6 @@
 package project.entity;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 public class ZoneOfBreeks {
@@ -14,26 +13,44 @@ public class ZoneOfBreeks {
     @Column(nullable = false)
     private String description;
 
-    @OneToMany
-    private List<ZoneOfBreeksCondition> conditions;
+    /*
+        A number from 0 to 127 representing
+        breeks positions in the zone
+        2^7 = 128
+    */
+    @Column(nullable = false)
+    private Byte conditions;
 
     @Column(nullable = false)
     private String linkToEmoji;
 
-    @OneToMany
-    private List<ZoneOfBreeksStates> states;
+    /*
+        A number from 0 to 2186 representing
+        each breek's state in the zone
+        3^7 = 2187
+    */
+    @Column(nullable = false)
+    private Short states;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private Week week;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
 
     public ZoneOfBreeks() {
 
     }
 
-    public ZoneOfBreeks(Integer id, String description, List<ZoneOfBreeksCondition> conditions,
-                        String linkToEmoji, List<ZoneOfBreeksStates> states) {
+    public ZoneOfBreeks(Integer id, String description, Byte conditions,
+                        String linkToEmoji, Short states, Week week, User user) {
         this.id = id;
         this.description = description;
         this.conditions = conditions;
         this.linkToEmoji = linkToEmoji;
         this.states = states;
+        this.week = week;
+        this.user = user;
     }
 
     public Integer getId() {
@@ -52,11 +69,11 @@ public class ZoneOfBreeks {
         this.description = description;
     }
 
-    public List<ZoneOfBreeksCondition> getConditions() {
+    public Byte getConditions() {
         return conditions;
     }
 
-    public void setConditions(List<ZoneOfBreeksCondition> conditions) {
+    public void setConditions(Byte conditions) {
         this.conditions = conditions;
     }
 
@@ -68,11 +85,27 @@ public class ZoneOfBreeks {
         this.linkToEmoji = linkToEmoji;
     }
 
-    public List<ZoneOfBreeksStates> getStates() {
+    public Short getStates() {
         return states;
     }
 
-    public void setStates(List<ZoneOfBreeksStates> states) {
+    public void setStates(Short states) {
         this.states = states;
+    }
+
+    public Week getWeek() {
+        return week;
+    }
+
+    public void setWeek(Week week) {
+        this.week = week;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }

@@ -1,7 +1,6 @@
 package project.entity;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 public class Week {
@@ -11,25 +10,16 @@ public class Week {
     @Column
     private Integer id;
 
-    @OneToMany
-    private List<ZoneOfBreeks> zonesOfWeek;
-
-    @OneToMany
-    private List<Note> notesOfWeek;
-
-    @OneToOne
-    private Image imageOfWeek;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
 
     public Week() {
 
     }
 
-    public Week(Integer id, List<ZoneOfBreeks> zonesOfWeek,
-                List<Note> notesOfWeek, Image imageOfWeek) {
+    public Week(Integer id, User user) {
         this.id = id;;
-        this.zonesOfWeek = zonesOfWeek;
-        this.notesOfWeek = notesOfWeek;
-        this.imageOfWeek = imageOfWeek;
+        this.user = user;
     }
 
     public Integer getId() {
@@ -40,27 +30,11 @@ public class Week {
         this.id = id;
     }
 
-    public List<ZoneOfBreeks> getZonesOfWeek() {
-        return zonesOfWeek;
+    public User getUser() {
+        return user;
     }
 
-    public void setZonesOfWeek(List<ZoneOfBreeks> zonesOfWeek) {
-        this.zonesOfWeek = zonesOfWeek;
-    }
-
-    public List<Note> getNotesOfWeek() {
-        return notesOfWeek;
-    }
-
-    public void setNotesOfWeek(List<Note> notesOfWeek) {
-        this.notesOfWeek = notesOfWeek;
-    }
-
-    public Image getImageOfWeek() {
-        return imageOfWeek;
-    }
-
-    public void setImageOfWeek(Image imageOfWeek) {
-        this.imageOfWeek = imageOfWeek;
+    public void setUser(User user) {
+        this.user = user;
     }
 }

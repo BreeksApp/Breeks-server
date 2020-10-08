@@ -61,4 +61,12 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 }

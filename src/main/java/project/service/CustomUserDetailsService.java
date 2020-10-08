@@ -9,6 +9,8 @@ import project.entity.User;
 import project.exception.NotAddedToDatabase;
 import project.repository.UserRepository;
 
+import java.util.List;
+
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
@@ -17,11 +19,32 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return userRepository.findUserByUsername(username).
+        return userRepository.findUserByUserName(username).
                 orElseThrow(() -> new UsernameNotFoundException("Username not found!"));
     }
 
     public void createUser(User user) throws NotAddedToDatabase {
         userRepository.save(user);
+    }
+
+    public boolean deleteUser(Integer id) {
+        if (userRepository.existsById(id)) {
+            userRepository.delete(userRepository.findById(id).get());
+            return true;
+        }
+        else return false;
+    }
+
+    public boolean editUser(Integer id, User user) throws NotAddedToDatabase {
+        if (userRepository.existsById(id)) {
+            user.setId(id);
+            userRepository.save(user);
+            return true;
+        }
+        else return false;
+    }
+
+    public List<User> listOfUsers() {
+        return userRepository.findAll();
     }
 }

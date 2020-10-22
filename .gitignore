@@ -1,5 +1,5 @@
 .idea/
 lib/
 target/
-src/main/resources/config.properties
 src/main/java/project/security/jwt/JwtProperties.java
+src/main/resources/config.properties

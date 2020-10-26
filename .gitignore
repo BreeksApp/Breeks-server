@@ -1,5 +1,4 @@
 .idea/
 lib/
 target/
-src/main/java/project/security/jwt/JwtProperties.java
-src/main/resources/config.properties
+src/main/resources/app.yml

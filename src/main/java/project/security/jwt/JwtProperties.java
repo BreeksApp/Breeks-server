@@ -10,13 +10,11 @@ public class JwtProperties {
     private String secretKey;
     private long validityInMs;
 
-    public String getSecretKey()
-    {
+    public String getSecretKey() {
         return secretKey;
     }
 
-    public void setSecretKey(String secretKey)
-    {
+    public void setSecretKey(String secretKey) {
         this.secretKey = secretKey;
     }
 

@@ -1,4 +1,4 @@
-package project.controller;
+package project.controller.requests;
 
 public class AuthRequest {
 

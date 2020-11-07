@@ -9,6 +9,7 @@ public class JwtProperties {
 
     private String secretKey;
     private long validityInMs;
+    private long refreshValidityInMs;
 
     public String getSecretKey() {
         return secretKey;
@@ -24,5 +25,13 @@ public class JwtProperties {
 
     public void setValidityInMs(long validityInMs) {
         this.validityInMs = validityInMs;
+    }
+
+    public long getRefreshValidityInMs() {
+        return refreshValidityInMs;
+    }
+
+    public void setRefreshValidityInMs(long validityInMsRefresh) {
+        this.refreshValidityInMs = validityInMsRefresh;
     }
 }

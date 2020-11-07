@@ -32,11 +32,15 @@ public class JwtTokenProvider {
         secretKey = Base64.getEncoder().encodeToString(jwtProperties.getSecretKey().getBytes());
     }
 
-    public String createToken(String userName) {
+    // flag ? false createAccessToken : createRefreshToken
+    public String createToken(String userName, boolean flag) {
         Claims claims = Jwts.claims().setSubject(userName);
 
         Date now = new Date();
-        Date validity = new Date(now.getTime() + jwtProperties.getValidityInMs());
+        Date validity;
+        if (flag) validity = new Date(now.getTime() + jwtProperties.getRefreshValidityInMs());
+        else validity = new Date(now.getTime() + jwtProperties.getValidityInMs());
+
 
         return Jwts.builder()
                 .setClaims(claims)

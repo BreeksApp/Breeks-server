@@ -8,6 +8,7 @@ import project.entity.Note;
 import project.exception.NotAddedToDatabase;
 import project.service.NoteService;
 
+import java.sql.Date;
 import java.util.List;
 
 @RestController
@@ -53,6 +54,14 @@ public class NoteController {
     @GetMapping("/getNote/{id}")
     public ResponseEntity<Note> getNote(@PathVariable("id") int id) {
         Note note = noteService.findNote(id);
+        if (note != null) return new ResponseEntity<>(note, HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+    }
+
+    @GetMapping("/getNoteByDateAndPage/{timeInMs}/{page}")
+    public ResponseEntity<Note> getNote(@PathVariable("timeInMs") long timeInMs,
+                                        @PathVariable("page") byte page) {
+        Note note = noteService.findNoteByDateAndPage(new Date(timeInMs), page);
         if (note != null) return new ResponseEntity<>(note, HttpStatus.OK);
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }

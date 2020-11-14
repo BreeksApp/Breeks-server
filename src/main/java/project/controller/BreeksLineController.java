@@ -4,23 +4,23 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import project.entity.ZoneOfBreeks;
+import project.entity.BreeksLine;
 import project.exception.NotAddedToDatabase;
-import project.service.ZoneOfBreeksService;
+import project.service.BreeksLineService;
 
 import java.util.List;
 
 @RestController
 @RequestMapping("/breeks")
-public class ZoneOfBreeksController {
+public class BreeksLineController {
 
     @Autowired
-    private ZoneOfBreeksService zoneOfBreeksService;
+    private BreeksLineService breeksLineService;
 
-    @PostMapping("/addZone")
-    public ResponseEntity<?> addZone(@RequestBody ZoneOfBreeks zone) {
+    @PostMapping("/addLine")
+    public ResponseEntity<?> addLine(@RequestBody BreeksLine line) {
         try {
-            zoneOfBreeksService.addZone(zone);
+            breeksLineService.addLine(line);
             return new ResponseEntity<>(HttpStatus.CREATED);
         }
         catch (NotAddedToDatabase exception) {
@@ -28,25 +28,25 @@ public class ZoneOfBreeksController {
         }
     }
 
-    @DeleteMapping("/deleteZone/{id}")
-    public ResponseEntity<?> deleteZone(@PathVariable(name = "id") int id) {
-        final boolean deleted = zoneOfBreeksService.deleteZone(id);
+    @DeleteMapping("/deleteLine/{id}")
+    public ResponseEntity<?> deleteLine(@PathVariable(name = "id") int id) {
+        final boolean deleted = breeksLineService.deleteLine(id);
         return deleted
                 ? new ResponseEntity<>(HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
     }
 
-    @PutMapping("/editZone/{id}")
-    public ResponseEntity<?> editZone(@PathVariable(name = "id") int id, @RequestBody ZoneOfBreeks zone) {
-        final boolean updated = zoneOfBreeksService.editZone(id, zone);
+    @PutMapping("/editLine/{id}")
+    public ResponseEntity<?> editLine(@PathVariable(name = "id") int id, @RequestBody BreeksLine line) {
+        final boolean updated = breeksLineService.editLine(id, line);
         return updated
                 ? new ResponseEntity<>(HttpStatus.OK)
                 : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
     }
 
-    @GetMapping("/listOfZones")
-    public ResponseEntity<List<ZoneOfBreeks>> getAllZones() {
-        List<ZoneOfBreeks> list = zoneOfBreeksService.listOfZones();
+    @GetMapping("/listOfLines")
+    public ResponseEntity<List<BreeksLine>> getAllLines() {
+        List<BreeksLine> list = breeksLineService.listOfLines();
         return new ResponseEntity<>(list, HttpStatus.OK);
     }
 }

@@ -3,7 +3,7 @@ package project.entity;
 import javax.persistence.*;
 
 @Entity
-public class ZoneOfBreeks {
+public class BreeksLine {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -38,12 +38,12 @@ public class ZoneOfBreeks {
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
-    public ZoneOfBreeks() {
+    public BreeksLine() {
 
     }
 
-    public ZoneOfBreeks(Integer id, String description, Byte conditions,
-                        String linkToEmoji, Short states, Week week, User user) {
+    public BreeksLine(Integer id, String description, Byte conditions,
+                      String linkToEmoji, Short states, Week week, User user) {
         this.id = id;
         this.description = description;
         this.conditions = conditions;

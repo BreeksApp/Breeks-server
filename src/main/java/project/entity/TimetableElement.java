@@ -3,7 +3,7 @@ package project.entity;
 import javax.persistence.*;
 
 @Entity
-public class ElementInDay {
+public class TimetableElement {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -31,13 +31,13 @@ public class ElementInDay {
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
-    public ElementInDay() {
+    public TimetableElement() {
 
     }
 
-    public ElementInDay(Integer id, String tagColor, String mainText,
-                        String timeFrom, String timeTo, Integer tagDay,
-                        Week week, User user) {
+    public TimetableElement(Integer id, String tagColor, String mainText,
+                            String timeFrom, String timeTo, Integer tagDay,
+                            Week week, User user) {
         this.id = id;
         this.tagColor = tagColor;
         this.mainText = mainText;

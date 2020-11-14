@@ -6,7 +6,9 @@ import project.entity.Note;
 import project.exception.NotAddedToDatabase;
 import project.repository.NoteRepository;
 
+import java.sql.Date;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class NoteServiceImpl implements NoteService {
@@ -40,7 +42,7 @@ public class NoteServiceImpl implements NoteService {
 
     @Override
     public List<Note> listOfNotes() {
-        return (List<Note>)noteRepository.findAll();
+        return noteRepository.findAll();
     }
 
     @Override
@@ -49,5 +51,12 @@ public class NoteServiceImpl implements NoteService {
             return noteRepository.findById(id).get();
         }
         return null;
+    }
+
+    @Override
+    public Note findNoteByDateAndPage(Date date, Byte page) {
+        Optional<Note> note = noteRepository.findByDateAndPage(date, page);
+        if (note.isEmpty()) return null;
+        else return note.get();
     }
 }

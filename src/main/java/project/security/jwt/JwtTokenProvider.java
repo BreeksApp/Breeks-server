@@ -1,6 +1,7 @@
 package project.security.jwt;
 
 import io.jsonwebtoken.*;
+import io.jsonwebtoken.impl.JwtMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -8,12 +9,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
+import project.entity.User;
 import project.exception.InvalidJwtAuthenticationException;
 
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Base64;
-import java.util.Date;
+import java.util.*;
 
 @Component
 public class JwtTokenProvider {
@@ -33,8 +34,11 @@ public class JwtTokenProvider {
     }
 
     // flag ? false createAccessToken : createRefreshToken
-    public String createToken(String userName, boolean flag) {
-        Claims claims = Jwts.claims().setSubject(userName);
+    public String createToken(User user, boolean flag) {
+        Map<String, Object> payload = new JwtMap();
+        payload.put("user_id", user.getId());
+        payload.put("username", user.getUsername());
+        Claims claims = Jwts.claims(payload);
 
         Date now = new Date();
         Date validity;
@@ -51,7 +55,11 @@ public class JwtTokenProvider {
     }
 
     private String getUserName(String token) {
-        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
+        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().get("username").toString();
+    }
+
+    private int getUserId(String token) {
+        return (int) Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().get("user_id");
     }
 
     public boolean validateToken(String token) {

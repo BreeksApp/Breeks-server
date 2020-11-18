@@ -50,8 +50,8 @@ public class AuthController {
                 throw new BadCredentialsException("Invalid password!");
             }
 
-            String token = jwtTokenProvider.createToken(name, false);
-            String tokenRefresh = jwtTokenProvider.createToken(name, true);
+            String token = jwtTokenProvider.createToken(user, false);
+            String tokenRefresh = jwtTokenProvider.createToken(user, true);
 
             // let's send the token back to the user
             return ResponseEntity.ok(createModel(name, token, tokenRefresh));

@@ -67,8 +67,10 @@ public class AuthController {
         String name = request.getUsername();
 
         if (refreshToken != null && jwtTokenProvider.validateToken(refreshToken)) {
-            String newAccessToken = jwtTokenProvider.createToken(name, false);
-            String newRefreshToken = jwtTokenProvider.createToken(name, true);
+            User user = userRepository.findUserByUserName(name)
+                    .orElseThrow(() -> new UsernameNotFoundException("User not found!"));
+            String newAccessToken = jwtTokenProvider.createToken(user, false);
+            String newRefreshToken = jwtTokenProvider.createToken(user, true);
             Authentication auth = jwtTokenProvider.getAuthentication(newAccessToken);
             if (auth != null) {
                 SecurityContextHolder.getContext().setAuthentication(auth);

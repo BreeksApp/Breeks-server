@@ -1,6 +1,7 @@
 package project.entity;
 
 import javax.persistence.*;
+import java.sql.Date;
 
 @Entity
 public class TimetableElement {
@@ -25,8 +26,8 @@ public class TimetableElement {
     @Column(nullable = false)
     private Integer tagDay;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Week week;
+    @Column(nullable = false)
+    private Date date;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
@@ -35,17 +36,14 @@ public class TimetableElement {
 
     }
 
-    public TimetableElement(Integer id, String tagColor, String mainText,
-                            String timeFrom, String timeTo, Integer tagDay,
-                            Week week, User user) {
-        this.id = id;
+    public TimetableElement(String tagColor, String mainText, String timeFrom,
+                            String timeTo, Integer tagDay, Date date) {
         this.tagColor = tagColor;
         this.mainText = mainText;
         this.timeFrom = timeFrom;
         this.timeTo = timeTo;
         this.tagDay = tagDay;
-        this.week = week;
-        this.user = user;
+        this.date = date;
     }
 
     public Integer getId() {
@@ -94,14 +92,6 @@ public class TimetableElement {
 
     public void setTagDay(Integer tagDay) {
         this.tagDay = tagDay;
-    }
-
-    public Week getWeek() {
-        return week;
-    }
-
-    public void setWeek(Week week) {
-        this.week = week;
     }
 
     public User getUser() {

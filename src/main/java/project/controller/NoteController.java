@@ -4,8 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import project.controller.utils.UserDetermination;
 import project.entity.Note;
+import project.entity.User;
 import project.exception.NotAddedToDatabase;
+import project.security.jwt.JwtTokenProvider;
+import project.service.CustomUserDetailsService;
 import project.service.NoteService;
 
 import java.sql.Date;
@@ -17,6 +21,12 @@ public class NoteController {
 
     @Autowired
     private NoteService noteService;
+
+    @Autowired
+    private CustomUserDetailsService userDetailsService;
+
+    @Autowired
+    private JwtTokenProvider jwtTokenProvider;
 
     @PostMapping("/addNote")
     public ResponseEntity<?> addNote(@RequestBody Note note) {
@@ -59,10 +69,14 @@ public class NoteController {
     }
 
     @GetMapping("/getNoteByDateAndPage/{timeInMs}/{page}")
-    public ResponseEntity<Note> getNote(@PathVariable("timeInMs") long timeInMs,
+    public ResponseEntity<Note> getNote(@RequestHeader("Authorization") String bearerToken,
+                                        @PathVariable("timeInMs") long timeInMs,
                                         @PathVariable("page") byte page) {
-        Note note = noteService.findNoteByDateAndPage(new Date(timeInMs), page);
-        if (note != null) return new ResponseEntity<>(note, HttpStatus.OK);
+        User user = UserDetermination.determineUser(bearerToken, jwtTokenProvider, userDetailsService);
+        if (user != null) {
+            Note note = noteService.findByDateAndPageAndUser(new Date(timeInMs), page, user);
+            if (note != null) return new ResponseEntity<>(note, HttpStatus.OK);
+        }
         return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }

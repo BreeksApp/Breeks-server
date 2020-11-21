@@ -58,7 +58,7 @@ public class JwtTokenProvider {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().get("username").toString();
     }
 
-    private int getUserId(String token) {
+    public int getUserId(String token) {
         return (int) Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().get("user_id");
     }
 
@@ -74,6 +74,13 @@ public class JwtTokenProvider {
 
     public String resolveToken(HttpServletRequest request) {
         String bearerToken = request.getHeader("Authorization");
+        if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
+            return bearerToken.substring(7);
+        }
+        return null;
+    }
+
+    public String resolveToken(String bearerToken) {
         if (bearerToken != null && bearerToken.startsWith("Bearer ")) {
             return bearerToken.substring(7);
         }

@@ -1,6 +1,7 @@
 package project.service;
 
 import project.entity.Note;
+import project.entity.User;
 
 import java.sql.Date;
 import java.util.List;
@@ -11,5 +12,5 @@ public interface NoteService {
     boolean editNote(Integer id, Note newNote);
     List<Note> listOfNotes();
     Note findNote(Integer id);
-    Note findNoteByDateAndPage(Date date, Byte page);
+    Note findByDateAndPageAndUser(Date date, Byte page, User user);
 }

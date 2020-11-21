@@ -1,6 +1,7 @@
 package project.entity;
 
 import javax.persistence.*;
+import java.sql.Date;
 
 @Entity
 public class Image {
@@ -13,8 +14,8 @@ public class Image {
     @Column(nullable = false)
     private String linkToImage;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    private Week week;
+    @Column(nullable = false)
+    private Date date;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
@@ -23,11 +24,9 @@ public class Image {
 
     }
 
-    public Image(Integer id, String linkToImage, Week week, User user) {
-        this.id = id;
+    public Image(String linkToImage, Date date) {
         this.linkToImage = linkToImage;
-        this.week = week;
-        this.user = user;
+        this.date = date;
     }
 
     public Integer getId() {
@@ -44,14 +43,6 @@ public class Image {
 
     public void setLinkToImage(String linkToImage) {
         this.linkToImage = linkToImage;
-    }
-
-    public Week getWeek() {
-        return week;
-    }
-
-    public void setWeek(Week week) {
-        this.week = week;
     }
 
     public User getUser() {

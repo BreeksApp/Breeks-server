@@ -23,6 +23,11 @@ public class CustomUserDetailsService implements UserDetailsService {
                 orElseThrow(() -> new UsernameNotFoundException("Username not found!"));
     }
 
+    public User loadUserById(int id) throws UsernameNotFoundException {
+        return userRepository.findUserById(id).
+                orElseThrow(() -> new UsernameNotFoundException("Username not found!"));
+    }
+
     public void createUser(User user) throws NotAddedToDatabase {
         userRepository.save(user);
     }

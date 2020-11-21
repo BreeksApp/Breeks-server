@@ -1,6 +1,7 @@
 package project.entity;
 
 import javax.persistence.*;
+import java.sql.Date;
 
 @Entity
 public class BreeksLine {
@@ -32,8 +33,8 @@ public class BreeksLine {
     @Column(nullable = false)
     private Short states;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    private Week week;
+    @Column(nullable = false)
+    private Date date;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
@@ -42,15 +43,13 @@ public class BreeksLine {
 
     }
 
-    public BreeksLine(Integer id, String description, Byte conditions,
-                      String linkToEmoji, Short states, Week week, User user) {
-        this.id = id;
+    public BreeksLine(String description, Byte conditions,
+                      String linkToEmoji, Short states, Date date) {
         this.description = description;
         this.conditions = conditions;
         this.linkToEmoji = linkToEmoji;
         this.states = states;
-        this.week = week;
-        this.user = user;
+        this.date = date;
     }
 
     public Integer getId() {
@@ -91,14 +90,6 @@ public class BreeksLine {
 
     public void setStates(Short states) {
         this.states = states;
-    }
-
-    public Week getWeek() {
-        return week;
-    }
-
-    public void setWeek(Week week) {
-        this.week = week;
     }
 
     public User getUser() {

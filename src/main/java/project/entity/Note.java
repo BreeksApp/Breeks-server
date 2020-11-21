@@ -24,24 +24,17 @@ public class Note {
     private Date date;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private Week week;
-
-    @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
     public Note() {
 
     }
 
-    public Note(Integer id, String text, String effects, Byte page,
-                Date date, Week week, User user) {
-        this.id = id;
+    public Note(String text, String effects, Byte page, Date date) {
         this.text = text;
         this.effects = effects;
         this.page = page;
         this.date = date;
-        this.week = week;
-        this.user = user;
     }
 
     public Integer getId() {
@@ -82,14 +75,6 @@ public class Note {
 
     public void setDate(Date date) {
         this.date = date;
-    }
-
-    public Week getWeek() {
-        return week;
-    }
-
-    public void setWeek(Week week) {
-        this.week = week;
     }
 
     public User getUser() {

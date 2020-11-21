@@ -3,6 +3,7 @@ package project.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import project.entity.Note;
+import project.entity.User;
 import project.exception.NotAddedToDatabase;
 import project.repository.NoteRepository;
 
@@ -54,8 +55,8 @@ public class NoteServiceImpl implements NoteService {
     }
 
     @Override
-    public Note findNoteByDateAndPage(Date date, Byte page) {
-        Optional<Note> note = noteRepository.findByDateAndPage(date, page);
+    public Note findByDateAndPageAndUser(Date date, Byte page, User user) {
+        Optional<Note> note = noteRepository.findByDateAndPageAndUser(date, page, user);
         if (note.isEmpty()) return null;
         else return note.get();
     }

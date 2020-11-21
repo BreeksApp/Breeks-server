@@ -10,4 +10,5 @@ import java.util.Optional;
 
 public interface NoteRepository extends JpaRepository<Note, Integer> {
     Optional<Note> findByDateAndPageAndUser(Date date, Byte page, User user);
+    boolean existsByDateAndPageAndUser(Date date, Byte page, User user);
 }

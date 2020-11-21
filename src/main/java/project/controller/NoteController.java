@@ -29,10 +29,16 @@ public class NoteController {
     private JwtTokenProvider jwtTokenProvider;
 
     @PostMapping("/addNote")
-    public ResponseEntity<?> addNote(@RequestBody Note note) {
+    public ResponseEntity<?> addNote(@RequestHeader("Authorization") String bearerToken,
+                                     @RequestBody Note note) {
         try {
-            noteService.addNote(note);
-            return new ResponseEntity<>(HttpStatus.OK);
+            User user = UserDetermination.determineUser(bearerToken, jwtTokenProvider, userDetailsService);
+            if (user != null) {
+                note.setUser(user);
+                noteService.addNote(note);
+                return new ResponseEntity<>(HttpStatus.OK);
+            }
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         catch (NotAddedToDatabase exception) {
             return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
@@ -47,12 +53,19 @@ public class NoteController {
                 : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
     }
 
-    @PutMapping("/editNote/{id}")
-    public ResponseEntity<?> editNote(@PathVariable("id") int id, @RequestBody Note note) {
-        boolean updated = noteService.editNote(id, note);
-        return updated
-                ? new ResponseEntity<>(HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+    @PutMapping("/editNote/{timeInMs}/{page}")
+    public ResponseEntity<?> editNote(@RequestHeader("Authorization") String bearerToken,
+                                      @PathVariable("timeInMs") long timeInMs,
+                                      @PathVariable("page") byte page,
+                                      @RequestBody Note note) {
+        User user = UserDetermination.determineUser(bearerToken, jwtTokenProvider, userDetailsService);
+        if (user != null) {
+            boolean updated = noteService.editNote(new Date(timeInMs), page, user, note);
+            return updated
+                    ? new ResponseEntity<>(HttpStatus.OK)
+                    : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+        }
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
     @GetMapping("/listOfNotes")

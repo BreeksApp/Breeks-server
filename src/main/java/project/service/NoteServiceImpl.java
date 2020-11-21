@@ -42,6 +42,18 @@ public class NoteServiceImpl implements NoteService {
     }
 
     @Override
+    public boolean editNote(Date date, Byte page, User user, Note newNote) {
+        if (noteRepository.existsByDateAndPageAndUser(date, page, user)) {
+            newNote.setId(
+                    noteRepository.findByDateAndPageAndUser(date, page, user).get().getId()
+            );
+            noteRepository.save(newNote);
+            return true;
+        }
+        else return false;
+    }
+
+    @Override
     public List<Note> listOfNotes() {
         return noteRepository.findAll();
     }

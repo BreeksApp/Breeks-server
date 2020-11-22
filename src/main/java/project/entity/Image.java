@@ -45,6 +45,14 @@ public class Image {
         this.linkToImage = linkToImage;
     }
 
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
     public User getUser() {
         return user;
     }

@@ -29,6 +29,9 @@ public class TimetableElement {
     @Column(nullable = false)
     private Date date;
 
+    @Column(nullable = false)
+    private byte number;
+
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
@@ -37,13 +40,14 @@ public class TimetableElement {
     }
 
     public TimetableElement(String tagColor, String mainText, String timeFrom,
-                            String timeTo, Integer tagDay, Date date) {
+                            String timeTo, Integer tagDay, Date date, byte number) {
         this.tagColor = tagColor;
         this.mainText = mainText;
         this.timeFrom = timeFrom;
         this.timeTo = timeTo;
         this.tagDay = tagDay;
         this.date = date;
+        this.number = number;
     }
 
     public Integer getId() {
@@ -92,6 +96,22 @@ public class TimetableElement {
 
     public void setTagDay(Integer tagDay) {
         this.tagDay = tagDay;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+    public byte getNumber() {
+        return number;
+    }
+
+    public void setNumber(byte number) {
+        this.number = number;
     }
 
     public User getUser() {

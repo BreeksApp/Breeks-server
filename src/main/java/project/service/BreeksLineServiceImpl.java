@@ -3,9 +3,11 @@ package project.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import project.entity.BreeksLine;
+import project.entity.User;
 import project.exception.NotAddedToDatabase;
 import project.repository.BreeksLineRepository;
 
+import java.sql.Date;
 import java.util.List;
 
 @Service
@@ -15,8 +17,8 @@ public class BreeksLineServiceImpl implements BreeksLineService {
     private BreeksLineRepository breeksLineRepository;
 
     @Override
-    public void addLine(BreeksLine zone) throws NotAddedToDatabase {
-        breeksLineRepository.save(zone);
+    public void addLine(BreeksLine line) throws NotAddedToDatabase {
+        breeksLineRepository.save(line);
     }
 
     @Override
@@ -29,10 +31,33 @@ public class BreeksLineServiceImpl implements BreeksLineService {
     }
 
     @Override
-    public boolean editLine(Integer id, BreeksLine newZone) throws NotAddedToDatabase {
+    public boolean deleteLine(Date date, String description, User user) {
+        if (breeksLineRepository.existsByDateAndDescriptionAndUser(date, description, user)) {
+            breeksLineRepository.delete(
+                    breeksLineRepository.findByDateAndDescriptionAndUser(date, description, user).get()
+            );
+            return true;
+        }
+        else return false;
+    }
+
+    @Override
+    public boolean editLine(Integer id, BreeksLine newLine) throws NotAddedToDatabase {
         if (breeksLineRepository.existsById(id)) {
-            newZone.setId(id);
-            breeksLineRepository.save(newZone);
+            newLine.setId(id);
+            breeksLineRepository.save(newLine);
+            return true;
+        }
+        else return false;
+    }
+
+    @Override
+    public boolean editLine(Date date, String description, User user, BreeksLine newLine) {
+        if (breeksLineRepository.existsByDateAndDescriptionAndUser(date, description, user)) {
+            newLine.setId(
+                    breeksLineRepository.findByDateAndDescriptionAndUser(date, description, user).get().getId()
+            );
+            breeksLineRepository.save(newLine);
             return true;
         }
         else return false;
@@ -45,6 +70,11 @@ public class BreeksLineServiceImpl implements BreeksLineService {
 
     @Override
     public List<BreeksLine> listOfLines() {
-        return (List<BreeksLine>) breeksLineRepository.findAll();
+        return breeksLineRepository.findAll();
+    }
+
+    @Override
+    public List<BreeksLine> listOfLinesInWeek(Date date, User user) {
+        return breeksLineRepository.findAllByDateAndUser(date, user);
     }
 }

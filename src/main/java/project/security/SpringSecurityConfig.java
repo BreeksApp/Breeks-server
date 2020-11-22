@@ -38,11 +38,9 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/user/registration").permitAll()
-                .antMatchers(HttpMethod.POST, "/signin").permitAll()
                 .antMatchers(HttpMethod.POST, "/auth/signin").permitAll()
+                .antMatchers(HttpMethod.POST, "/user/registration").permitAll()
                 .antMatchers(HttpMethod.POST, "/auth/refresh").permitAll()
-                .antMatchers(HttpMethod.POST, "/refresh").permitAll()
                 .anyRequest().authenticated()
                 .and()
                 .apply(new JwtSecurityConfigurer(jwtTokenProvider));

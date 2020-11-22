@@ -8,6 +8,7 @@ import javax.persistence.*;
 import java.util.Collection;
 
 @Entity
+@Table(name = "Users")
 public class User implements UserDetails {
 
     @Id
@@ -23,8 +24,8 @@ public class User implements UserDetails {
 
     }
 
-    public User(String userName, String password) {
-        this.userName = userName;
+    public User(String username, String password) {
+        this.userName = username;
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         this.password = encoder.encode(password);
     }
@@ -39,9 +40,18 @@ public class User implements UserDetails {
         return password;
     }
 
+    public void setPassword(String password) {
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        this.password = encoder.encode(password);
+    }
+
     @Override
     public String getUsername() {
         return userName;
+    }
+
+    public void setUserName(String username) {
+        this.userName = username;
     }
 
     @Override

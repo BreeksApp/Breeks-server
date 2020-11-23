@@ -44,12 +44,12 @@ public class BreeksLine {
     }
 
     public BreeksLine(String description, Byte conditions,
-                      String linkToEmoji, Short states, Date date) {
+                      String linkToEmoji, Short states, long timeInMs) {
         this.description = description;
         this.conditions = conditions;
         this.linkToEmoji = linkToEmoji;
         this.states = states;
-        this.date = date;
+        this.date = new Date(timeInMs);
     }
 
     public Integer getId() {
@@ -96,8 +96,8 @@ public class BreeksLine {
         return date;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
+    public void setDate(long timeInMs) {
+        this.date = new Date(timeInMs);
     }
 
     public User getUser() {

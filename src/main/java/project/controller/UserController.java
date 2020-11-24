@@ -8,6 +8,7 @@ import project.entity.User;
 import project.exception.NotAddedToDatabase;
 import project.service.CustomUserDetailsService;
 
+import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -20,6 +21,7 @@ public class UserController {
     @PostMapping("/registration")
     public ResponseEntity<?> addUser(@RequestBody User user) {
         try {
+            user.setRoles(Collections.singletonList("ROLE_USER"));
             userDetailsService.createUser(user);
             return new ResponseEntity<>(HttpStatus.CREATED);
         }

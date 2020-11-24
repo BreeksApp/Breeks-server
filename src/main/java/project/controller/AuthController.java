@@ -50,8 +50,8 @@ public class AuthController {
                 throw new BadCredentialsException("Invalid password!");
             }
 
-            String token = jwtTokenProvider.createToken(user, false);
-            String tokenRefresh = jwtTokenProvider.createToken(user, true);
+            String token = jwtTokenProvider.createToken(user, false, user.getRoles());
+            String tokenRefresh = jwtTokenProvider.createToken(user, true, user.getRoles());
 
             // let's send the token back to the user
             return ResponseEntity.ok(createModel(name, token, tokenRefresh));
@@ -69,8 +69,8 @@ public class AuthController {
         if (refreshToken != null && jwtTokenProvider.validateToken(refreshToken)) {
             User user = userRepository.findUserByUserName(name)
                     .orElseThrow(() -> new UsernameNotFoundException("User not found!"));
-            String newAccessToken = jwtTokenProvider.createToken(user, false);
-            String newRefreshToken = jwtTokenProvider.createToken(user, true);
+            String newAccessToken = jwtTokenProvider.createToken(user, false, user.getRoles());
+            String newRefreshToken = jwtTokenProvider.createToken(user, true, user.getRoles());
             Authentication auth = jwtTokenProvider.getAuthentication(newAccessToken);
             if (auth != null) {
                 SecurityContextHolder.getContext().setAuthentication(auth);

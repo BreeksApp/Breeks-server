@@ -34,10 +34,11 @@ public class JwtTokenProvider {
     }
 
     // flag ? false createAccessToken : createRefreshToken
-    public String createToken(User user, boolean flag) {
+    public String createToken(User user, boolean flag, List<String> roles) {
         Map<String, Object> payload = new JwtMap();
         payload.put("user_id", user.getId());
         payload.put("username", user.getUsername());
+        payload.put("roles", roles);
         Claims claims = Jwts.claims(payload);
 
         Date now = new Date();

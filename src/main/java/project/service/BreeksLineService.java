@@ -15,4 +15,5 @@ public interface BreeksLineService {
     boolean moveBreek(); // ?
     List<BreeksLine> listOfLines();
     List<BreeksLine> listOfLinesInWeek(Date date, User user);
+    BreeksLine findBreeksLine(Date date, String description, User user);
 }

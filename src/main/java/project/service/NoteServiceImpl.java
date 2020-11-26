@@ -19,6 +19,10 @@ public class NoteServiceImpl implements NoteService {
 
     @Override
     public void addNote(Note note) throws NotAddedToDatabase {
+        Note noteFromDB = findByDateAndPageAndUser(note.getDate(), note.getPage(), note.getUser());
+        if (noteFromDB != null) {
+            noteRepository.delete(noteFromDB);
+        }
         noteRepository.save(note);
     }
 

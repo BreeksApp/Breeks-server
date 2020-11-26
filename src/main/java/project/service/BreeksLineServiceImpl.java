@@ -18,6 +18,10 @@ public class BreeksLineServiceImpl implements BreeksLineService {
 
     @Override
     public void addLine(BreeksLine line) throws NotAddedToDatabase {
+        BreeksLine lineFromDB = findBreeksLine(line.getDate(), line.getDescription(), line.getUser());
+        if (lineFromDB != null) {
+            breeksLineRepository.delete(lineFromDB);
+        }
         breeksLineRepository.save(line);
     }
 
@@ -77,5 +81,13 @@ public class BreeksLineServiceImpl implements BreeksLineService {
     @Override
     public List<BreeksLine> listOfLinesInWeek(Date date, User user) {
         return breeksLineRepository.findAllByDateAndUser(date, user);
+    }
+
+    @Override
+    public BreeksLine findBreeksLine(Date date, String description, User user) {
+        if (breeksLineRepository.existsByDateAndDescriptionAndUser(date, description, user)) {
+            return breeksLineRepository.findByDateAndDescriptionAndUser(date, description, user).get();
+        }
+        return null;
     }
 }

@@ -57,6 +57,7 @@ public class BreeksLineServiceImpl implements BreeksLineService {
             newLine.setId(
                     breeksLineRepository.findByDateAndDescriptionAndUser(date, description, user).get().getId()
             );
+            newLine.setUser(user);
             breeksLineRepository.save(newLine);
             return true;
         }

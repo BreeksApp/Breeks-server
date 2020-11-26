@@ -47,6 +47,7 @@ public class NoteServiceImpl implements NoteService {
             newNote.setId(
                     noteRepository.findByDateAndPageAndUser(date, page, user).get().getId()
             );
+            newNote.setUser(user);
             noteRepository.save(newNote);
             return true;
         }

@@ -45,6 +45,7 @@ public class ImageServiceImpl implements ImageService {
             newImage.setId(
                     imageRepository.findByDateAndUser(date, user).get().getId()
             );
+            newImage.setUser(user);
             imageRepository.save(newImage);
             return true;
         }

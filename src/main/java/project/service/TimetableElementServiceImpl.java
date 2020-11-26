@@ -57,6 +57,7 @@ public class TimetableElementServiceImpl implements TimetableElementService {
             newElement.setId(
                     timetableElementRepository.findByDateAndNumberAndUser(date, number, user).get().getId()
             );
+            newElement.setUser(user);
             timetableElementRepository.save(newElement);
             return true;
         }

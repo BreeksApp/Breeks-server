@@ -24,9 +24,6 @@ public class TimetableElement {
     private String timeTo;
 
     @Column(nullable = false)
-    private Integer tagDay;
-
-    @Column(nullable = false)
     private Date date;
 
     @Column(nullable = false)
@@ -40,12 +37,11 @@ public class TimetableElement {
     }
 
     public TimetableElement(String tagColor, String mainText, String timeFrom,
-                            String timeTo, Integer tagDay, Date date, byte number) {
+                            String timeTo, Date date, byte number) {
         this.tagColor = tagColor;
         this.mainText = mainText;
         this.timeFrom = timeFrom;
         this.timeTo = timeTo;
-        this.tagDay = tagDay;
         this.date = date;
         this.number = number;
     }
@@ -88,14 +84,6 @@ public class TimetableElement {
 
     public void setTimeTo(String timeTo) {
         this.timeTo = timeTo;
-    }
-
-    public Integer getTagDay() {
-        return tagDay;
-    }
-
-    public void setTagDay(Integer tagDay) {
-        this.tagDay = tagDay;
     }
 
     public Date getDate() {

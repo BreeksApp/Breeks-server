@@ -66,13 +66,6 @@ public class ImageController {
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
 
-    @GetMapping("/getImage/{id}")
-    public ResponseEntity<Image> getImage(@PathVariable("id") int id) {
-        Image image = imageService.findImage(id);
-        if (image != null) return new ResponseEntity<>(image, HttpStatus.OK);
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-    }
-
     @GetMapping("/getImage/{timeInMs}")
     public ResponseEntity<Image> getImage(@RequestHeader("Authorization") String bearerToken,
                                           @PathVariable("timeInMs") long timeInMs) {

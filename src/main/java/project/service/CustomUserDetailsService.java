@@ -40,22 +40,24 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     public void createUser(User user) throws NotAddedToDatabase {
-        UserDetails userFromDB = loadUserByUsername(user.getUsername());
-        if (userFromDB != null) {
+        UserDetails userFromDB = null;
+        try {
+            userFromDB = loadUserByUsername(user.getUsername());
             throw new SecurityException("This user already exists. Please choose another username!");
         }
+        catch (UsernameNotFoundException e) {
+            user.setRoles(Collections.singletonList("ROLE_USER"));
+            user.setActivationCode(UUID.randomUUID().toString());
 
-        user.setRoles(Collections.singletonList("ROLE_USER"));
-        user.setActivationCode(UUID.randomUUID().toString());
+            userRepository.save(user);
 
-        userRepository.save(user);
-
-        if (!StringUtils.isEmpty(user.getEmail())) {
-            String message = String.format(
-                    mailProperties.getDefaultMessage(), user.getUsername(),
-                    user.getActivationCode()
-            );
-            mailSender.send(user.getEmail(), "Activation code", message);
+            if (!StringUtils.isEmpty(user.getEmail())) {
+                String message = String.format(
+                        mailProperties.getDefaultMessage(), user.getUsername(),
+                        user.getActivationCode()
+                );
+                mailSender.send(user.getEmail(), "Activation code", message);
+            }
         }
     }
 

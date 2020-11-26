@@ -27,7 +27,7 @@ public class UserController {
             return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
         }
         catch (SecurityException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_MODIFIED);
+            return new ResponseEntity<>(e.getLocalizedMessage(), HttpStatus.NOT_MODIFIED);
         }
     }
 

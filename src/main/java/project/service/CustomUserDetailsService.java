@@ -5,17 +5,28 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import project.entity.User;
 import project.exception.NotAddedToDatabase;
 import project.repository.UserRepository;
+import project.service.mail.MailProperties;
+import project.service.mail.MailSender;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private MailSender mailSender;
+
+    @Autowired
+    private MailProperties mailProperties;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -29,7 +40,23 @@ public class CustomUserDetailsService implements UserDetailsService {
     }
 
     public void createUser(User user) throws NotAddedToDatabase {
+        UserDetails userFromDB = loadUserByUsername(user.getUsername());
+        if (userFromDB != null) {
+            throw new SecurityException("This user already exists. Please choose another username!");
+        }
+
+        user.setRoles(Collections.singletonList("ROLE_USER"));
+        user.setActivationCode(UUID.randomUUID().toString());
+
         userRepository.save(user);
+
+        if (!StringUtils.isEmpty(user.getEmail())) {
+            String message = String.format(
+                    mailProperties.getDefaultMessage(), user.getUsername(),
+                    user.getActivationCode()
+            );
+            mailSender.send(user.getEmail(), "Activation code", message);
+        }
     }
 
     public boolean deleteUser(Integer id) {
@@ -51,5 +78,15 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     public List<User> listOfUsers() {
         return userRepository.findAll();
+    }
+
+    public boolean activateUser(String code) {
+        User user = userRepository.findUserByActivationCode(code);
+        if (user != null) {
+            user.setActivationCode(null);
+            userRepository.save(user);
+            return true;
+        }
+        return false;
     }
 }

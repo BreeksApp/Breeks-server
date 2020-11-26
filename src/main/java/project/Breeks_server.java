@@ -9,14 +9,12 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @SpringBootApplication
 public class Breeks_server
 {
-    public static void main(String[] args)
-    {
+    public static void main(String[] args) {
         SpringApplication.run(Breeks_server.class, args);
     }
 
     @Bean
-    PasswordEncoder passwordEncoder()
-    {
+    PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 }

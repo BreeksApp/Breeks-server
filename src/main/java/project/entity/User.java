@@ -23,6 +23,8 @@ public class User implements UserDetails {
     private String userName;
 
     private String password;
+    private String email;
+    private String activationCode;
 
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
@@ -31,10 +33,11 @@ public class User implements UserDetails {
 
     }
 
-    public User(String username, String password, List<String> roles) {
+    public User(String username, String password, String email, List<String> roles) {
         this.userName = username;
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         this.password = encoder.encode(password);
+        this.email = email;
         this.roles = roles;
     }
 
@@ -76,6 +79,22 @@ public class User implements UserDetails {
 
     public void setRoles(List<String> roles) {
         this.roles = roles;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getActivationCode() {
+        return activationCode;
+    }
+
+    public void setActivationCode(String activationCode) {
+        this.activationCode = activationCode;
     }
 
     @Override

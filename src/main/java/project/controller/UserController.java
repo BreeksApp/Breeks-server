@@ -8,7 +8,6 @@ import project.entity.User;
 import project.exception.NotAddedToDatabase;
 import project.service.CustomUserDetailsService;
 
-import java.util.Collections;
 import java.util.List;
 
 @RestController
@@ -21,13 +20,25 @@ public class UserController {
     @PostMapping("/registration")
     public ResponseEntity<?> addUser(@RequestBody User user) {
         try {
-            user.setRoles(Collections.singletonList("ROLE_USER"));
             userDetailsService.createUser(user);
             return new ResponseEntity<>(HttpStatus.CREATED);
         }
         catch (NotAddedToDatabase e) {
             return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
         }
+        catch (SecurityException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_MODIFIED);
+        }
+    }
+
+    @GetMapping("/activate/{code}")
+    public ResponseEntity<?> activate(@PathVariable(name = "code") String code) {
+        boolean activated = userDetailsService.activateUser(code);
+
+        if (activated) {
+            return new ResponseEntity<>("User successfully activated!", HttpStatus.OK);
+        }
+        return new ResponseEntity<>("Bad activation code!", HttpStatus.NOT_FOUND);
     }
 
     @DeleteMapping("/deleteUser/{id}")

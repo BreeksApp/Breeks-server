@@ -18,6 +18,7 @@ public class TimetableElementServiceImpl implements TimetableElementService {
 
     @Override
     public void addElement(TimetableElement element) throws NotAddedToDatabase {
+        System.out.println(element.getTagColorNum());
         timetableElementRepository.save(element);
     }
 
@@ -31,10 +32,10 @@ public class TimetableElementServiceImpl implements TimetableElementService {
     }
 
     @Override
-    public boolean deleteElement(Date date, byte number, User user) {
-        if (timetableElementRepository.existsByDateAndNumberAndUser(date, number, user)) {
+    public boolean deleteElement(Integer id, User user) {
+        if (timetableElementRepository.existsByIdAndUser(id, user)) {
             timetableElementRepository.delete(
-                    timetableElementRepository.findByDateAndNumberAndUser(date, number, user).get()
+                    timetableElementRepository.findByIdAndUser(id, user).get()
             );
             return true;
         }
@@ -52,10 +53,10 @@ public class TimetableElementServiceImpl implements TimetableElementService {
     }
 
     @Override
-    public boolean editElement(Date date, byte number, User user, TimetableElement newElement) {
-        if (timetableElementRepository.existsByDateAndNumberAndUser(date, number, user)) {
+    public boolean editElement(Integer id, User user, TimetableElement newElement) {
+        if (timetableElementRepository.existsByIdAndUser(id, user)) {
             newElement.setId(
-                    timetableElementRepository.findByDateAndNumberAndUser(date, number, user).get().getId()
+                    timetableElementRepository.findByIdAndUser(id, user).get().getId()
             );
             newElement.setUser(user);
             timetableElementRepository.save(newElement);

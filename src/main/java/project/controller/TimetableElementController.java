@@ -13,6 +13,7 @@ import project.service.CustomUserDetailsService;
 import project.service.TimetableElementService;
 
 import java.sql.Date;
+import java.sql.Time;
 import java.util.List;
 
 @RestController
@@ -29,14 +30,15 @@ public class TimetableElementController {
     private JwtTokenProvider jwtTokenProvider;
 
     @PostMapping("/addTimetableElement")
-    public ResponseEntity<?> addTimetableElement(@RequestHeader("Authorization") String bearerToken,
+    public ResponseEntity<TimetableElement> addTimetableElement(@RequestHeader("Authorization") String bearerToken,
                                                  @RequestBody TimetableElement timetableElement) {
         try {
             User user = UserDetermination.determineUser(bearerToken, jwtTokenProvider, userDetailsService);
             if (user != null) {
                 timetableElement.setUser(user);
                 timetableElementService.addElement(timetableElement);
-                return new ResponseEntity<>(HttpStatus.CREATED);
+                timetableElement.setUser(null);
+                return new ResponseEntity<TimetableElement>(timetableElement, HttpStatus.CREATED);
             }
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -46,20 +48,11 @@ public class TimetableElementController {
     }
 
     @DeleteMapping("/deleteTimetableElement/{id}")
-    public ResponseEntity<?> deleteTimetableElement(@PathVariable(name = "id") int id) {
-        final boolean deleted = timetableElementService.deleteElement(id);
-        return deleted
-                ? new ResponseEntity<>(HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
-    }
-
-    @DeleteMapping("/deleteTimetableElement/{timeInMs}/{number}")
     public ResponseEntity<?> deleteTimetableElement(@RequestHeader("Authorization") String bearerToken,
-                                                    @PathVariable("timeInMs") long timeInMs,
-                                                    @PathVariable("number") byte number) {
+                                                    @PathVariable(name = "id") Integer elementId) {
         User user = UserDetermination.determineUser(bearerToken, jwtTokenProvider, userDetailsService);
         if (user != null) {
-            final boolean deleted = timetableElementService.deleteElement(new Date(timeInMs), number, user);
+            final boolean deleted = timetableElementService.deleteElement(elementId, user);
             return deleted
                     ? new ResponseEntity<>(HttpStatus.OK)
                     : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
@@ -68,26 +61,15 @@ public class TimetableElementController {
     }
 
     @PutMapping("/editTimetableElement/{id}")
-    public ResponseEntity<?> editTimetableElement(@PathVariable(name = "id") int id,
-                                              @RequestBody TimetableElement timetableElement) {
-        final boolean updated = timetableElementService.editElement(id, timetableElement);
-        return updated
-                ? new ResponseEntity<>(HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
-    }
-
-    @PutMapping("/editTimetableElement/{timeInMs}/{number}")
-    public ResponseEntity<?> editTimetableElement(@RequestHeader("Authorization") String bearerToken,
-                                                  @PathVariable("timeInMs") long timeInMs,
-                                                  @PathVariable("number") byte number,
+    public ResponseEntity<TimetableElement> editTimetableElement(@RequestHeader("Authorization") String bearerToken,
+                                                  @PathVariable("id") Integer elementId,
                                                   @RequestBody TimetableElement timetableElement) {
         User user = UserDetermination.determineUser(bearerToken, jwtTokenProvider, userDetailsService);
         if (user != null) {
-            final boolean updated = timetableElementService.editElement(new Date(timeInMs), number,
-                                                                        user, timetableElement);
+            final boolean updated = timetableElementService.editElement(elementId, user, timetableElement);
             return updated
-                    ? new ResponseEntity<>(HttpStatus.OK)
-                    : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+                    ? new ResponseEntity<TimetableElement>(timetableElement, HttpStatus.OK)
+                    : new ResponseEntity<TimetableElement>(timetableElement, HttpStatus.NOT_MODIFIED);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }

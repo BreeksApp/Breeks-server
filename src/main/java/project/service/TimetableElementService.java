@@ -9,9 +9,9 @@ import java.util.List;
 public interface TimetableElementService {
     void addElement(TimetableElement element);
     boolean deleteElement(Integer id);
-    boolean deleteElement(Date date, byte number, User user);
+    boolean deleteElement(Integer id, User user);
     boolean editElement(Integer id, TimetableElement newElement);
-    boolean editElement(Date date, byte number, User user, TimetableElement newElement);
+    boolean editElement(Integer id, User user, TimetableElement newElement);
     boolean moveElement(); // ?
     List<TimetableElement> listOfElements();
     List<TimetableElement> listOfElements(Date date, User user);

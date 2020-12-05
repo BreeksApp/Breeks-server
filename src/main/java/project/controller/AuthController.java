@@ -50,9 +50,9 @@ public class AuthController {
                 throw new BadCredentialsException("Invalid password!");
             }
 
-            if (user.getActivationCode() != null) {
+            /*if (user.getActivationCode() != null) {
                 return new ResponseEntity<>("User is not activated!", HttpStatus.NOT_MODIFIED);
-            }
+            }*/
 
             String token = jwtTokenProvider.createToken(user, false, user.getRoles());
             String tokenRefresh = jwtTokenProvider.createToken(user, true, user.getRoles());

@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface TimetableElementRepository extends JpaRepository<TimetableElement, Integer> {
-    Optional<TimetableElement> findByDateAndNumberAndUser(Date date, byte number, User user);
+    Optional<TimetableElement> findByIdAndUser(Integer id, User user);
     List<TimetableElement> findAllByDateAndUser(Date date, User user);
-    boolean existsByDateAndNumberAndUser(Date date, byte number, User user);
+    boolean existsByIdAndUser(Integer id, User user);
 }

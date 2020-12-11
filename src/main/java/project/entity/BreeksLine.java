@@ -9,7 +9,7 @@ public class BreeksLine {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column
-    private Integer id;
+    private Integer lineId;
 
     @Column(nullable = false)
     private String description;
@@ -21,9 +21,6 @@ public class BreeksLine {
     */
     @Column(nullable = false)
     private Byte conditions;
-
-    @Column(nullable = false)
-    private String linkToEmoji;
 
     /*
         A number from 0 to 2186 representing
@@ -43,21 +40,19 @@ public class BreeksLine {
 
     }
 
-    public BreeksLine(String description, Byte conditions,
-                      String linkToEmoji, Short states, long timeInMs) {
+    public BreeksLine(String description, Byte conditions, Short states, long timeInMs) {
         this.description = description;
         this.conditions = conditions;
-        this.linkToEmoji = linkToEmoji;
         this.states = states;
         this.date = new Date(timeInMs);
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getLineId() {
+        return lineId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setLineId(Integer id) {
+        this.lineId = id;
     }
 
     public String getDescription() {
@@ -74,14 +69,6 @@ public class BreeksLine {
 
     public void setConditions(Byte conditions) {
         this.conditions = conditions;
-    }
-
-    public String getLinkToEmoji() {
-        return linkToEmoji;
-    }
-
-    public void setLinkToEmoji(String linkToEmoji) {
-        this.linkToEmoji = linkToEmoji;
     }
 
     public Short getStates() {

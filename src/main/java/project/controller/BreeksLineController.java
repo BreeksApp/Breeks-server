@@ -29,14 +29,14 @@ public class BreeksLineController {
     private JwtTokenProvider jwtTokenProvider;
 
     @PostMapping("/addLine")
-    public ResponseEntity<?> addLine(@RequestHeader("Authorization") String bearerToken,
+    public ResponseEntity<BreeksLine> addLine(@RequestHeader("Authorization") String bearerToken,
                                      @RequestBody BreeksLine line) {
         try {
             User user = UserDetermination.determineUser(bearerToken, jwtTokenProvider, userDetailsService);
             if (user != null) {
                 line.setUser(user);
                 breeksLineService.addLine(line);
-                return new ResponseEntity<>(HttpStatus.CREATED);
+                return new ResponseEntity<>(line, HttpStatus.CREATED);
             }
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
@@ -61,7 +61,7 @@ public class BreeksLineController {
         if (user != null) {
             final boolean updated = breeksLineService.editLine(id, line);
             return updated
-                    ? new ResponseEntity<>(HttpStatus.OK)
+                    ? new ResponseEntity<>(line, HttpStatus.OK)
                     : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

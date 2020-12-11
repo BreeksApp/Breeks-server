@@ -9,7 +9,7 @@ public class TimetableElement {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column
-    private Integer id;
+    private Integer elementId;
 
     @Column(nullable = false)
     private short tagColorNum;
@@ -42,12 +42,12 @@ public class TimetableElement {
         this.date = date;
     }
 
-    public Integer getId() {
-        return id;
+    public Integer getElementId() {
+        return elementId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setElementId(Integer id) {
+        this.elementId = id;
     }
 
     public short getTagColorNum() {

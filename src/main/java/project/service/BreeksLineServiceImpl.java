@@ -37,7 +37,7 @@ public class BreeksLineServiceImpl implements BreeksLineService {
     @Override
     public boolean editLine(Integer id, BreeksLine newLine) throws NotAddedToDatabase {
         if (breeksLineRepository.existsById(id)) {
-            newLine.setId(id);
+            newLine.setLineId(id);
             breeksLineRepository.save(newLine);
             return true;
         }

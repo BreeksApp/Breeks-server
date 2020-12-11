@@ -33,9 +33,9 @@ public class TimetableElementServiceImpl implements TimetableElementService {
 
     @Override
     public boolean deleteElement(Integer id, User user) {
-        if (timetableElementRepository.existsByIdAndUser(id, user)) {
+        if (timetableElementRepository.existsByElementIdAndUser(id, user)) {
             timetableElementRepository.delete(
-                    timetableElementRepository.findByIdAndUser(id, user).get()
+                    timetableElementRepository.findByElementIdAndUser(id, user).get()
             );
             return true;
         }
@@ -45,7 +45,7 @@ public class TimetableElementServiceImpl implements TimetableElementService {
     @Override
     public boolean editElement(Integer id, TimetableElement newElement) throws NotAddedToDatabase {
         if (timetableElementRepository.existsById(id)) {
-            newElement.setId(id);
+            newElement.setElementId(id);
             timetableElementRepository.save(newElement);
             return true;
         }
@@ -54,9 +54,9 @@ public class TimetableElementServiceImpl implements TimetableElementService {
 
     @Override
     public boolean editElement(Integer id, User user, TimetableElement newElement) {
-        if (timetableElementRepository.existsByIdAndUser(id, user)) {
-            newElement.setId(
-                    timetableElementRepository.findByIdAndUser(id, user).get().getId()
+        if (timetableElementRepository.existsByElementIdAndUser(id, user)) {
+            newElement.setElementId(
+                    timetableElementRepository.findByElementIdAndUser(id, user).get().getElementId()
             );
             newElement.setUser(user);
             timetableElementRepository.save(newElement);

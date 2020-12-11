@@ -17,6 +17,9 @@ public class TimetableElement {
     @Column(nullable = false)
     private String mainText;
 
+    @Column
+    private String effects;
+
     @Column(nullable = false)
     private String timeFrom;
 
@@ -33,10 +36,11 @@ public class TimetableElement {
 
     }
 
-    public TimetableElement(short tagColorNum, String mainText, String timeFrom,
-                            String timeTo, Date date) {
+    public TimetableElement(short tagColorNum, String mainText, String effects,
+                            String timeFrom, String timeTo, Date date) {
         this.tagColorNum = tagColorNum;
         this.mainText = mainText;
+        this.effects = effects;
         this.timeFrom = timeFrom;
         this.timeTo = timeTo;
         this.date = date;
@@ -64,6 +68,14 @@ public class TimetableElement {
 
     public void setMainText(String mainText) {
         this.mainText = mainText;
+    }
+
+    public String getEffects() {
+        return effects;
+    }
+
+    public void setEffects(String effects) {
+        this.effects = effects;
     }
 
     public String getTimeFrom() {

@@ -14,21 +14,24 @@ public class BreeksLine {
     @Column(nullable = false)
     private String description;
 
+    @Column
+    private String effects;
+
     /*
-        A number from 0 to 127 representing
+        A number from 0 to 63 representing
         breeks positions in the zone
-        2^7 = 128
+        2^6 = 64
     */
     @Column(nullable = false)
-    private Byte conditions;
+    private Short conditions;
 
     @Column(nullable = false)
     private String linkToEmoji;
 
     /*
-        A number from 0 to 2186 representing
+        A number from 0 to 4095 representing
         each breek's state in the zone
-        3^7 = 2187
+        4^6 = 4096
     */
     @Column(nullable = false)
     private Short states;
@@ -43,9 +46,10 @@ public class BreeksLine {
 
     }
 
-    public BreeksLine(String description, Byte conditions,
+    public BreeksLine(String description, String effects, Short conditions,
                       String linkToEmoji, Short states, long timeInMs) {
         this.description = description;
+        this.effects = effects;
         this.conditions = conditions;
         this.linkToEmoji = linkToEmoji;
         this.states = states;
@@ -68,11 +72,19 @@ public class BreeksLine {
         this.description = description;
     }
 
-    public Byte getConditions() {
+    public String getEffects() {
+        return effects;
+    }
+
+    public void setEffects(String effects) {
+        this.effects = effects;
+    }
+
+    public Short getConditions() {
         return conditions;
     }
 
-    public void setConditions(Byte conditions) {
+    public void setConditions(Short conditions) {
         this.conditions = conditions;
     }
 

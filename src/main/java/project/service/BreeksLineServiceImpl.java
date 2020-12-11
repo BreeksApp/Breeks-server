@@ -35,17 +35,6 @@ public class BreeksLineServiceImpl implements BreeksLineService {
     }
 
     @Override
-    public boolean deleteLine(Date date, String description, User user) {
-        if (breeksLineRepository.existsByDateAndDescriptionAndUser(date, description, user)) {
-            breeksLineRepository.delete(
-                    breeksLineRepository.findByDateAndDescriptionAndUser(date, description, user).get()
-            );
-            return true;
-        }
-        else return false;
-    }
-
-    @Override
     public boolean editLine(Integer id, BreeksLine newLine) throws NotAddedToDatabase {
         if (breeksLineRepository.existsById(id)) {
             newLine.setId(id);
@@ -53,24 +42,6 @@ public class BreeksLineServiceImpl implements BreeksLineService {
             return true;
         }
         else return false;
-    }
-
-    @Override
-    public boolean editLine(Date date, String description, User user, BreeksLine newLine) {
-        if (breeksLineRepository.existsByDateAndDescriptionAndUser(date, description, user)) {
-            newLine.setId(
-                    breeksLineRepository.findByDateAndDescriptionAndUser(date, description, user).get().getId()
-            );
-            newLine.setUser(user);
-            breeksLineRepository.save(newLine);
-            return true;
-        }
-        else return false;
-    }
-
-    @Override
-    public boolean moveBreek() {
-        return false;
     }
 
     @Override

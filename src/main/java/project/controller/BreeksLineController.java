@@ -53,28 +53,13 @@ public class BreeksLineController {
                 : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
     }
 
-    @DeleteMapping("/deleteLine/{timeInMs}/{description}")
-    public ResponseEntity<?> deleteLine(@RequestHeader("Authorization") String bearerToken,
-                                        @PathVariable(name = "timeInMs") long timeInMs,
-                                        @PathVariable(name = "description") String description) {
-        User user = UserDetermination.determineUser(bearerToken, jwtTokenProvider, userDetailsService);
-        if (user != null) {
-            final boolean deleted = breeksLineService.deleteLine(new Date(timeInMs), description, user);
-            return deleted
-                    ? new ResponseEntity<>(HttpStatus.OK)
-                    : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
-        }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-    }
-
-    @PutMapping("/editLine/{timeInMs}/{description}")
+    @PutMapping("/editLine/{id}")
     public ResponseEntity<?> editLine(@RequestHeader("Authorization") String bearerToken,
-                                      @PathVariable(name = "timeInMs") long timeInMs,
-                                      @PathVariable(name = "description") String description,
+                                      @PathVariable(name = "id") Integer id,
                                       @RequestBody BreeksLine line) {
         User user = UserDetermination.determineUser(bearerToken, jwtTokenProvider, userDetailsService);
         if (user != null) {
-            final boolean updated = breeksLineService.editLine(new Date(timeInMs), description, user, line);
+            final boolean updated = breeksLineService.editLine(id, line);
             return updated
                     ? new ResponseEntity<>(HttpStatus.OK)
                     : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);

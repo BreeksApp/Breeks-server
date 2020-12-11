@@ -14,7 +14,7 @@ public class Note {
     @Column
     private String text;
 
-    @Column
+    @Column(length = 65535, columnDefinition = "TEXT")
     private String effects;
 
     @Column(nullable = false)

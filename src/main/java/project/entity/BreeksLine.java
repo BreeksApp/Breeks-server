@@ -47,7 +47,8 @@ public class BreeksLine {
 
     }
 
-    public BreeksLine(String description, String effects, Short conditions, Short states, List<BreekEmoji> emojies, long timeInMs) {
+    public BreeksLine(String description, String effects, Short conditions,
+                      Short states, List<BreekEmoji> emojies, long timeInMs) {
         this.description = description;
         this.effects = effects;
         this.conditions = conditions;
@@ -96,6 +97,14 @@ public class BreeksLine {
         this.states = states;
     }
 
+    public List<BreekEmoji> getEmojies() {
+        return emojies;
+    }
+
+    public void setEmojies(List<BreekEmoji> emojies) {
+        this.emojies = emojies;
+    }
+
     public Date getDate() {
         return date;
     }
@@ -110,13 +119,5 @@ public class BreeksLine {
 
     public void setUser(User user) {
         this.user = user;
-    }
-
-    public List<BreekEmoji> getEmojies() {
-        return emojies;
-    }
-
-    public void setEmojies(List<BreekEmoji> emojies) {
-        this.emojies = emojies;
     }
 }

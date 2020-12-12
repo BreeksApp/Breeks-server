@@ -7,6 +7,5 @@ import project.entity.BreeksLine;
 
 public interface BreekEmojiRepository extends JpaRepository<BreekEmoji, Integer> {
     boolean existsByEmojiNum(Integer emojiNum);
-
     BreekEmoji findByEmojiNum(Integer emojiNum);
 }

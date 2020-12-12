@@ -16,6 +16,7 @@ import java.util.List;
 public class BreeksLineServiceImpl implements BreeksLineService {
     @Autowired
     private BreeksLineRepository breeksLineRepository;
+
     @Autowired
     private BreekEmojiRepository breekEmojiRepository;
 

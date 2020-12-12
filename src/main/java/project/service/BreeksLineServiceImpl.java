@@ -54,6 +54,9 @@ public class BreeksLineServiceImpl implements BreeksLineService {
                 if (!breekEmojiRepository.existsByEmojiNum(emoji.getEmojiNum())) {
                     breekEmojiRepository.save(emoji);
                 }
+                else {
+                    emoji.setId(breekEmojiRepository.findByEmojiNum(emoji.getEmojiNum()).getId());
+                }
             }
             breeksLineRepository.save(newLine);
             return true;

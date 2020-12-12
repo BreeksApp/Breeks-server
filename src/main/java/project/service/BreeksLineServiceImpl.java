@@ -2,9 +2,11 @@ package project.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import project.entity.BreekEmoji;
 import project.entity.BreeksLine;
 import project.entity.User;
 import project.exception.NotAddedToDatabase;
+import project.repository.BreekEmojiRepository;
 import project.repository.BreeksLineRepository;
 
 import java.sql.Date;
@@ -12,15 +14,24 @@ import java.util.List;
 
 @Service
 public class BreeksLineServiceImpl implements BreeksLineService {
-
     @Autowired
     private BreeksLineRepository breeksLineRepository;
+    @Autowired
+    private BreekEmojiRepository breekEmojiRepository;
 
     @Override
     public void addLine(BreeksLine line) throws NotAddedToDatabase {
         BreeksLine lineFromDB = findBreeksLine(line.getDate(), line.getDescription(), line.getUser());
         if (lineFromDB != null) {
             breeksLineRepository.delete(lineFromDB);
+        }
+        for (BreekEmoji emoji : line.getEmojies()) {
+            if (!breekEmojiRepository.existsByEmojiNum(emoji.getEmojiNum())) {
+                breekEmojiRepository.save(emoji);
+            }
+            else {
+                emoji.setId(breekEmojiRepository.findByEmojiNum(emoji.getEmojiNum()).getId());
+            }
         }
         breeksLineRepository.save(line);
     }
@@ -38,6 +49,11 @@ public class BreeksLineServiceImpl implements BreeksLineService {
     public boolean editLine(Integer id, BreeksLine newLine) throws NotAddedToDatabase {
         if (breeksLineRepository.existsById(id)) {
             newLine.setLineId(id);
+            for (BreekEmoji emoji : newLine.getEmojies()) {
+                if (!breekEmojiRepository.existsByEmojiNum(emoji.getEmojiNum())) {
+                    breekEmojiRepository.save(emoji);
+                }
+            }
             breeksLineRepository.save(newLine);
             return true;
         }

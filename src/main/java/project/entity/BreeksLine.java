@@ -2,10 +2,10 @@ package project.entity;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.util.List;
 
 @Entity
 public class BreeksLine {
-
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column
@@ -33,6 +33,10 @@ public class BreeksLine {
     @Column(nullable = false)
     private Short states;
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinColumn(name = "emoji_id")
+    private List<BreekEmoji> emojies;
+
     @Column(nullable = false)
     private Date date;
 
@@ -43,12 +47,12 @@ public class BreeksLine {
 
     }
 
-
-    public BreeksLine(String description, String effects, Short conditions, Short states, long timeInMs) {
+    public BreeksLine(String description, String effects, Short conditions, Short states, List<BreekEmoji> emojies, long timeInMs) {
         this.description = description;
         this.effects = effects;
         this.conditions = conditions;
         this.states = states;
+        this.emojies = emojies;
         this.date = new Date(timeInMs);
     }
 
@@ -106,5 +110,13 @@ public class BreeksLine {
 
     public void setUser(User user) {
         this.user = user;
+    }
+
+    public List<BreekEmoji> getEmojies() {
+        return emojies;
+    }
+
+    public void setEmojies(List<BreekEmoji> emojies) {
+        this.emojies = emojies;
     }
 }

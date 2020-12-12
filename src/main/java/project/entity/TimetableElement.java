@@ -17,7 +17,7 @@ public class TimetableElement {
     @Column(nullable = false)
     private String mainText;
 
-    @Column
+    @Column(length = 65535, columnDefinition = "text")
     private String effects;
 
     @Column(nullable = false)

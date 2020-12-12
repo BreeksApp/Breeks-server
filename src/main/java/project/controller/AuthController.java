@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import project.controller.requests.AuthRequest;
 import project.controller.requests.RefreshRequest;
 import project.entity.User;
+import project.exception.InvalidJwtAuthenticationException;
 import project.repository.UserRepository;
 import project.security.jwt.JwtTokenProvider;
 
@@ -70,22 +71,28 @@ public class AuthController {
         String refreshToken = request.getRefreshToken();
         String name = request.getUsername();
 
-        if (refreshToken != null && jwtTokenProvider.validateToken(refreshToken)) {
-            User user = userRepository.findUserByUserName(name)
-                    .orElseThrow(() -> new UsernameNotFoundException("User not found!"));
-            String newAccessToken = jwtTokenProvider.createToken(user, false, user.getRoles());
-            String newRefreshToken = jwtTokenProvider.createToken(user, true, user.getRoles());
-            Authentication auth = jwtTokenProvider.getAuthentication(newAccessToken);
-            if (auth != null) {
-                SecurityContextHolder.getContext().setAuthentication(auth);
-            }
+        if (refreshToken != null) {
+            try {
+                if (jwtTokenProvider.validateToken(refreshToken)) {
+                    User user = userRepository.findUserByUserName(name)
+                            .orElseThrow(() -> new UsernameNotFoundException("User not found!"));
+                    String newAccessToken = jwtTokenProvider.createToken(user, false, user.getRoles());
+                    String newRefreshToken = jwtTokenProvider.createToken(user, true, user.getRoles());
+                    Authentication auth = jwtTokenProvider.getAuthentication(newAccessToken);
+                    if (auth != null) {
+                        SecurityContextHolder.getContext().setAuthentication(auth);
 
-            // let's send the token back to the user
-            return ResponseEntity.ok(createModel(name, newAccessToken, newRefreshToken));
+                        // let's send the token back to the user
+                        return ResponseEntity.ok(createModel(name, newAccessToken, newRefreshToken));
+                    }
+                }
+            }
+            catch (InvalidJwtAuthenticationException | UsernameNotFoundException e) {
+                System.out.println(e.getMessage());
+                return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+            }
         }
-        else {
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
     private Map<Object, Object> createModel(String name, String token, String tokenRefresh) {

@@ -53,14 +53,12 @@ public class NoteController {
                 : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
     }
 
-    @PutMapping("/editNote/{timeInMs}/{page}")
+    @PutMapping("/editNote")
     public ResponseEntity<?> editNote(@RequestHeader("Authorization") String bearerToken,
-                                      @PathVariable("timeInMs") long timeInMs,
-                                      @PathVariable("page") byte page,
                                       @RequestBody Note note) {
         User user = UserDetermination.determineUser(bearerToken, jwtTokenProvider, userDetailsService);
         if (user != null) {
-            boolean updated = noteService.editNote(new Date(timeInMs), page, user, note);
+            boolean updated = noteService.editNote(note.getDate(), note.getPage(), user, note);
             return updated
                     ? new ResponseEntity<>(HttpStatus.OK)
                     : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);

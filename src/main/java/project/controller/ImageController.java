@@ -37,7 +37,7 @@ public class ImageController {
                 imageService.addImage(image);
                 return new ResponseEntity<>(HttpStatus.OK);
             }
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
         catch (NotAddedToDatabase exception) {
             return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
@@ -63,7 +63,7 @@ public class ImageController {
                     ? new ResponseEntity<>(HttpStatus.OK)
                     : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
         }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
     @GetMapping("/getImage/{timeInMs}")
@@ -72,9 +72,11 @@ public class ImageController {
         User user = UserDetermination.determineUser(bearerToken, jwtTokenProvider, userDetailsService);
         if (user != null) {
             Image image = imageService.findImage(new Date(timeInMs), user);
-            if (image != null) return new ResponseEntity<>(image, HttpStatus.OK);
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            if (image != null) {
+                return new ResponseEntity<>(image, HttpStatus.OK);
+            }
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 }

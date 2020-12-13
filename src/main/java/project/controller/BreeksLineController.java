@@ -38,7 +38,7 @@ public class BreeksLineController {
                 breeksLineService.addLine(line);
                 return new ResponseEntity<>(line, HttpStatus.CREATED);
             }
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
         catch (NotAddedToDatabase exception) {
             return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
@@ -64,7 +64,7 @@ public class BreeksLineController {
                     ? new ResponseEntity<>(line, HttpStatus.OK)
                     : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
         }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
     @GetMapping("/listOfLines/{timeInMs}")
@@ -75,6 +75,6 @@ public class BreeksLineController {
             List<BreeksLine> list = breeksLineService.listOfLinesInWeek(new Date(timeInMs), user);
             return new ResponseEntity<>(list, HttpStatus.OK);
         }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 }

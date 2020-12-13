@@ -51,12 +51,12 @@ public class CustomUserDetailsService implements UserDetailsService {
 
             userRepository.save(user);
 
-            if (!StringUtils.isEmpty(user.getEmail())) {
+            if (!StringUtils.isEmpty(user.getUsername())) {
                 String message = String.format(
                         mailProperties.getDefaultMessage(), user.getUsername(),
                         user.getActivationCode()
                 );
-                mailSender.send(user.getEmail(), "Activation code", message);
+                mailSender.send(user.getUsername(), "Activation code", message);
             }
         }
     }

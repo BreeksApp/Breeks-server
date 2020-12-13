@@ -60,9 +60,12 @@ public class AuthController {
 
             // let's send the token back to the user
             return ResponseEntity.ok(createModel(name, token, tokenRefresh));
-        }
-        catch (AuthenticationException e) {
-            throw new BadCredentialsException("Invalid username or password!");
+        } catch (UsernameNotFoundException e) {
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        } catch (AuthenticationException e) {
+            System.out.println(e.getMessage());
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
     }
 

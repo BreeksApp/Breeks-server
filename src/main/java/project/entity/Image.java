@@ -11,7 +11,7 @@ public class Image {
     @Column
     private Integer id;
 
-    @Column(nullable = false)
+    @Column(length = 65535, columnDefinition = "TEXT", nullable = false)
     private String linkToImage;
 
     @Column(nullable = false)

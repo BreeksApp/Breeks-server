@@ -2,3 +2,4 @@
 lib/
 target/
 src/main/resources/application.properties
+*.log

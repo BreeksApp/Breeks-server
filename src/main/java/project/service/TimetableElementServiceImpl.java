@@ -18,7 +18,6 @@ public class TimetableElementServiceImpl implements TimetableElementService {
 
     @Override
     public void addElement(TimetableElement element) throws NotAddedToDatabase {
-        System.out.println(element.getTagColorNum());
         timetableElementRepository.save(element);
     }
 

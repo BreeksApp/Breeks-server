@@ -35,7 +35,7 @@ public class ImageController {
             if (user != null) {
                 image.setUser(user);
                 imageService.addImage(image);
-                return new ResponseEntity<>(HttpStatus.OK);
+                return new ResponseEntity<Image>(image, HttpStatus.OK);
             }
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }

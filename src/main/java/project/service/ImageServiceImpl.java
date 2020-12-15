@@ -19,7 +19,9 @@ public class ImageServiceImpl implements ImageService {
     public void addImage(Image image) throws NotAddedToDatabase {
         Image imageFromDB = findImage(image.getDate(), image.getUser());
         if (imageFromDB != null) {
-            imageRepository.delete(imageFromDB);
+            image.setId(imageFromDB.getId());
+            imageFromDB.setLinkToImage(image.getLinkToImage());
+            //imageRepository.delete(imageFromDB);
         }
         imageRepository.save(image);
     }

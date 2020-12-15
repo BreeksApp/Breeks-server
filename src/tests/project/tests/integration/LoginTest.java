@@ -95,7 +95,11 @@ public class LoginTest {
     }
 
     @Test
-    public void loginAndAddingObjects() throws Exception {
+    public void loginTest() throws Exception {
+        login();
+    }
+
+    String login() throws Exception {
         MvcResult res = this.mockMvc.perform(post("/user/registration")
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content("{\"userName\": \"test@test.ru\", \"password\": \"0000\"}"))
@@ -118,52 +122,66 @@ public class LoginTest {
                 .andExpect(status().isOk())
                 .andReturn();
 
-        json = new JSONObject(res2.getResponse().getContentAsString());
-        String token = json.getString("token");
+        return new JSONObject(res2.getResponse().getContentAsString()).getString("token");
+    }
 
-        addTtElement(token);
-        addBreeksLine(token);
-        addImage(token);
+    @Test
+    public void testAddingImage() throws Exception {
+        addImage(login());
     }
 
     public void addImage(String token) throws Exception {
-        LocalDate localDate = LocalDate.now();
 
-        long millisLocalDate = localDate
-                .atStartOfDay()
-                .toInstant(OffsetDateTime
-                        .now()
-                        .getOffset())
-                .toEpochMilli();
-
-        this.mockMvc.perform(post("/image/addImage")
+        MvcResult res1 = this.mockMvc.perform(post("/image/addImage")
                 .header("Authorization", "Bearer " + token)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .content("{\"linkToImage\": \"test_path\", \"date\": " + millisLocalDate + "}"))
+                .content("{\"linkToImage\": \"test_path\", \"date\": " + getDate() + "}"))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isOk())
+                .andReturn();
+
+        MvcResult res2 = this.mockMvc.perform(post("/image/addImage")
+                .header("Authorization", "Bearer " + token)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content("{\"linkToImage\": \"test_path2\", \"date\": " + getDate() + "}"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andReturn();
+
+        assertThat(new JSONObject(res1.getResponse().getContentAsString()).getString("id")).isEqualTo(new JSONObject(res2.getResponse().getContentAsString()).getString("id"));
+
+        MvcResult res3 = this.mockMvc.perform(post("/image/addImage")
+                .header("Authorization", "Bearer " + token)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content("{\"linkToImage\": \"test_path3\", \"date\": " + (getDate() + getDate()) + "}"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andReturn();
+
+        assertThat(new JSONObject(res2.getResponse().getContentAsString()).getString("id")).isNotEqualTo(new JSONObject(res3.getResponse().getContentAsString()).getString("id"));
     }
 
-    public void addTtElement(String token) throws Exception {
-        LocalDate localDate = LocalDate.now();
+    @Test
+    void testAddAndEditTtElement() throws Exception {
+        addTtElement(login());
+        
+    }
+    
+    public String addTtElement(String token) throws Exception {
 
-        long millisLocalDate = localDate
-                .atStartOfDay()
-                .toInstant(OffsetDateTime
-                        .now()
-                        .getOffset())
-                .toEpochMilli();
-
-        TimetableElement element = new TimetableElement((short) 1, "text", "effects", "12:00", "13:00", new Date(millisLocalDate));
+        TimetableElement element = new TimetableElement((short) 1, "text", "effects", "12:00", "13:00", new Date(getDate()));
         ObjectMapper mapper = new ObjectMapper();
         String json = mapper.writeValueAsString(element);
 
-        this.mockMvc.perform(post("/timetableElement/addTimetableElement")
+        MvcResult res = this.mockMvc.perform(post("/timetableElement/addTimetableElement")
                 .header("Authorization", "Bearer " + token)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(json))
                 .andDo(print())
-                .andExpect(status().isCreated());
+                .andExpect(status().isCreated())
+                .andReturn();
+        
+        return new JSONObject(res.getResponse().getContentAsString()).getString("id");
     }
 
     public void addBreeksLine(String token) throws Exception {
@@ -188,5 +206,18 @@ public class LoginTest {
                 .content(json))
                 .andDo(print())
                 .andExpect(status().isCreated());
+    }
+
+    private long getDate() {
+        LocalDate localDate = LocalDate.now();
+
+        long millisLocalDate = localDate
+                .atStartOfDay()
+                .toInstant(OffsetDateTime
+                        .now()
+                        .getOffset())
+                .toEpochMilli();
+
+        return millisLocalDate;
     }
 }

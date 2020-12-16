@@ -59,6 +59,7 @@ public class BreeksLineController {
                                       @RequestBody BreeksLine line) {
         User user = UserDetermination.determineUser(bearerToken, jwtTokenProvider, userDetailsService);
         if (user != null) {
+            line.setUser(user);
             final boolean updated = breeksLineService.editLine(id, line);
             return updated
                     ? new ResponseEntity<>(line, HttpStatus.OK)

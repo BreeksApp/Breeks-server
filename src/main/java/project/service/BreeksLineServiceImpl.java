@@ -71,7 +71,8 @@ public class BreeksLineServiceImpl implements BreeksLineService {
 
     @Override
     public List<BreeksLine> listOfLinesInWeek(Date date, User user) {
-        return breeksLineRepository.findAllByDateAndUser(date, user);
+        List<BreeksLine> list = breeksLineRepository.findAllByDateAndUser(date, user);
+        return list;
     }
 
     @Override

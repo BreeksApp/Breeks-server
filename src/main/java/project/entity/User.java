@@ -29,9 +29,7 @@ public class User implements UserDetails {
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
 
-    public User() {
-
-    }
+    User() {}
 
     public User(String username, String password, List<String> roles) {
         this.userName = username;

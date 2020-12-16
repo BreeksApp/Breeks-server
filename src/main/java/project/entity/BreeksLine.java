@@ -48,13 +48,13 @@ public class BreeksLine {
     }
 
     public BreeksLine(String description, String effects, Short conditions,
-                      Short states, List<BreekEmoji> emojies, long timeInMs) {
+                      Short states, List<BreekEmoji> emojies, Date date) {
         this.description = description;
         this.effects = effects;
         this.conditions = conditions;
         this.states = states;
         this.emojies = emojies;
-        this.date = new Date(timeInMs);
+        this.date = date;
     }
 
     public Integer getLineId() {

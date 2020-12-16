@@ -89,6 +89,7 @@ public class CustomUserDetailsService implements UserDetailsService {
             userRepository.save(user);
             return true;
         }
+        deleteUser(user.getId());
         return false;
     }
 }

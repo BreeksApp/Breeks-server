@@ -38,7 +38,7 @@ public class NoteController {
                 noteService.addNote(note);
                 return new ResponseEntity<>(HttpStatus.OK);
             }
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
         catch (NotAddedToDatabase exception) {
             return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
@@ -63,7 +63,7 @@ public class NoteController {
                     ? new ResponseEntity<>(HttpStatus.OK)
                     : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
         }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
     @GetMapping("/listOfNotes")
@@ -86,8 +86,11 @@ public class NoteController {
         User user = UserDetermination.determineUser(bearerToken, jwtTokenProvider, userDetailsService);
         if (user != null) {
             Note note = noteService.findByDateAndPageAndUser(new Date(timeInMs), page, user);
-            if (note != null) return new ResponseEntity<>(note, HttpStatus.OK);
+            if (note != null) {
+                return new ResponseEntity<>(note, HttpStatus.OK);
+            }
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 }

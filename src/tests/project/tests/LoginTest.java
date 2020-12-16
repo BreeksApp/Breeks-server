@@ -1,4 +1,4 @@
-package project.tests.integration;
+package project.tests;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONObject;
@@ -27,8 +27,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -96,13 +95,13 @@ public class LoginTest {
 
     @Test
     public void loginTest() throws Exception {
-        login();
+        login("test");
     }
 
-    String login() throws Exception {
+    String login(String name) throws Exception {
         MvcResult res = this.mockMvc.perform(post("/user/registration")
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
-                .content("{\"userName\": \"test@test.ru\", \"password\": \"0000\"}"))
+                .content("{\"userName\": \"" + name + "@test.ru\", \"password\": \"0000\"}"))
                 .andDo(print())
                 .andExpect(status().isCreated())
                 .andReturn();
@@ -127,7 +126,7 @@ public class LoginTest {
 
     @Test
     public void testAddingImage() throws Exception {
-        addImage(login());
+        addImage(login("image"));
     }
 
     public void addImage(String token) throws Exception {
@@ -162,11 +161,12 @@ public class LoginTest {
     }
 
     @Test
-    void testAddAndEditTtElement() throws Exception {
-        addTtElement(login());
-        
+    public void testAddAndEditTtElement() throws Exception {
+        String token = login("element");
+        String sId = addTtElement(token);
+        editTtElement(token, sId);
     }
-    
+
     public String addTtElement(String token) throws Exception {
 
         TimetableElement element = new TimetableElement((short) 1, "text", "effects", "12:00", "13:00", new Date(getDate()));
@@ -180,32 +180,70 @@ public class LoginTest {
                 .andDo(print())
                 .andExpect(status().isCreated())
                 .andReturn();
-        
-        return new JSONObject(res.getResponse().getContentAsString()).getString("id");
+
+        return new JSONObject(res.getResponse().getContentAsString()).getString("elementId");
     }
 
-    public void addBreeksLine(String token) throws Exception {
-        LocalDate localDate = LocalDate.now();
+    public void editTtElement(String token, String id) throws Exception {
 
-        long millisLocalDate = localDate
-                .atStartOfDay()
-                .toInstant(OffsetDateTime
-                        .now()
-                        .getOffset())
-                .toEpochMilli();
-
-        List<BreekEmoji> emojis = new ArrayList<>();
-        emojis.add(new BreekEmoji(1));
-        BreeksLine breeksLine = new BreeksLine("text", "effects", (short) 21, (short) 1054, emojis, new Date(millisLocalDate));
+        TimetableElement element = new TimetableElement((short) 1, "text2", "effects", "12:00", "13:00", new Date(getDate()));
         ObjectMapper mapper = new ObjectMapper();
-        String json = mapper.writeValueAsString(breeksLine);
+        String json = mapper.writeValueAsString(element);
 
-        this.mockMvc.perform(post("/breeks/addLine")
+        MvcResult res = this.mockMvc.perform(put("/timetableElement/editTimetableElement/{id}", id)
                 .header("Authorization", "Bearer " + token)
                 .contentType(MediaType.APPLICATION_JSON_VALUE)
                 .content(json))
                 .andDo(print())
-                .andExpect(status().isCreated());
+                .andExpect(status().isOk())
+                .andReturn();
+
+        assertThat(new JSONObject(res.getResponse().getContentAsString()).getString("elementId")).isEqualTo(id);
+    }
+
+    @Test
+    public void testAddingAndEditingBreeksLine() throws Exception {
+        String token = login("breeksLine");
+        String sId = addBreeksLine(token);
+        editBreeksLine(token, sId);
+    }
+
+    public String addBreeksLine(String token) throws Exception {
+
+        List<BreekEmoji> emojis = new ArrayList<>();
+        emojis.add(new BreekEmoji(1));
+        BreeksLine breeksLine = new BreeksLine("text", "effects", (short) 21, (short) 1054, emojis, new Date(getDate()));
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString(breeksLine);
+
+        MvcResult res = this.mockMvc.perform(post("/breeks/addLine")
+                .header("Authorization", "Bearer " + token)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(json))
+                .andDo(print())
+                .andExpect(status().isCreated())
+                .andReturn();
+
+        return new JSONObject(res.getResponse().getContentAsString()).getString("lineId");
+    }
+
+    public void editBreeksLine(String token, String id) throws Exception {
+
+        List<BreekEmoji> emojis = new ArrayList<>();
+        emojis.add(new BreekEmoji(1));
+        BreeksLine breeksLine = new BreeksLine("text2", "effects", (short) 21, (short) 1054, emojis, new Date(getDate()));
+        ObjectMapper mapper = new ObjectMapper();
+        String json = mapper.writeValueAsString(breeksLine);
+
+        MvcResult res = this.mockMvc.perform(put("/breeks/editLine/{id}", id)
+                .header("Authorization", "Bearer " + token)
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .content(json))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andReturn();
+
+        assertThat(new JSONObject(res.getResponse().getContentAsString()).getString("lineId")).isEqualTo(id);
     }
 
     private long getDate() {

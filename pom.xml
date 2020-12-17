@@ -26,22 +26,6 @@
     <maven.compiler.target>1.7</maven.compiler.target>
     <java.version>14</java.version>
 
-    <filter>
-      <filter-name>charsetFilter</filter-name>
-      <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
-      <init-param>
-        <param-name>encoding</param-name>
-        <param-value>UTF-8</param-value>
-      </init-param>
-      <init-param>
-        <param-name>forceEncoding</param-name>
-        <param-value>true</param-value>
-      </init-param>
-    </filter>
-    <filter-mapping>
-      <filter-name>charsetFilter</filter-name>
-      <url-pattern>/*</url-pattern>
-    </filter-mapping>
   </properties>
 
   <dependencies>
@@ -77,13 +61,26 @@
       <version>0.9.1</version>
     </dependency>
 
+<!--    <dependency>-->
+<!--        <groupId>mysql</groupId>-->
+<!--        <artifactId>mysql-connector-java</artifactId>-->
+<!--        <scope>runtime</scope>-->
+<!--    </dependency>-->
+
+    <!-- https://mvnrepository.com/artifact/org.postgresql/postgresql -->
     <dependency>
-        <groupId>mysql</groupId>
-        <artifactId>mysql-connector-java</artifactId>
-        <scope>runtime</scope>
+      <groupId>org.postgresql</groupId>
+      <artifactId>postgresql</artifactId>
+      <version>42.2.18</version>
     </dependency>
 
 <!--    <dependency>-->
+<!--      <groupId>org.postgresql</groupId>-->
+<!--      <artifactId>postgresql</artifactId>-->
+<!--      <scope>runtime</scope>-->
+<!--    </dependency>-->
+
+    <!--    <dependency>-->
 <!--      <groupId>com.h2database</groupId>-->
 <!--      <artifactId>h2</artifactId>-->
 <!--      <version>1.4.200</version>-->
@@ -102,42 +99,8 @@
     </dependency>
 
     <dependency>
-      <groupId>org.junit.jupiter</groupId>
-      <artifactId>junit-jupiter-api</artifactId>
-      <version>5.7.0-M1</version>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.13.1</version>
-      <scope>test</scope>
-    </dependency>
-
-
-    <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-test</artifactId>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.springframework.security</groupId>
-      <artifactId>spring-security-test</artifactId>
-      <version>RELEASE</version>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>com.fasterxml.jackson.core</groupId>
-      <artifactId>jackson-databind</artifactId>
-      <version>2.10.0.pr2</version>
-    </dependency>
-    <dependency>
-      <groupId>com.googlecode.json-simple</groupId>
-      <artifactId>json-simple</artifactId>
-      <version>1.1</version>
       <scope>test</scope>
     </dependency>
 

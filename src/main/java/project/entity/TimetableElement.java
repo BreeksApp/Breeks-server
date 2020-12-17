@@ -1,5 +1,7 @@
 package project.entity;
 
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
 import java.sql.Date;
 
@@ -14,10 +16,10 @@ public class TimetableElement {
     @Column(nullable = false)
     private short tagColorNum;
 
-    @Column(nullable = false)
+    @Lob @Type(type = "org.hibernate.type.TextType") // 131000
     private String mainText;
 
-    @Column(length = 65535, columnDefinition = "TEXT")
+    @Lob @Type(type = "org.hibernate.type.TextType") // 131000
     private String effects;
 
     @Column(nullable = false)

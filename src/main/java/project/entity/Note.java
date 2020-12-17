@@ -1,5 +1,7 @@
 package project.entity;
 
+import org.hibernate.annotations.Type;
+
 import javax.persistence.*;
 import java.sql.Date;
 
@@ -11,10 +13,10 @@ public class Note {
     @Column
     private Integer id;
 
-    @Column
+    @Lob @Type(type = "org.hibernate.type.TextType") // 131000
     private String text;
 
-    @Column(length = 65535, columnDefinition = "TEXT")
+    @Lob @Type(type = "org.hibernate.type.TextType") // 131000
     private String effects;
 
     @Column(nullable = false)

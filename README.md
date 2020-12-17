@@ -17,6 +17,6 @@
 Рекомендуется запускать в IntelliJ IDEA.
 
 ## Запуск проекта
-`mvn exec:java -Dexec.mainClass="project.Breeks_server"`  
+`mvn -Dspring-boot.run.folders=./ spring-boot:run` в корне  
 
 Рекомендуется запускать в IntelliJ IDEA.

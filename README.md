@@ -9,3 +9,13 @@
 `mvn clean test`  
 
 Как Unit, так и интеграционных. Они находятся в директории `/src/tests/project/tests/`
+
+## Сборка проекта
+`mvn clean compile`  
+
+Рекомендуется запускать в IntelliJ IDEA.
+
+## Запуск проекта
+`mvn exec:java -Dexec.mainClass="project.Breeks_server"`  
+
+Рекомендуется запускать в IntelliJ IDEA.

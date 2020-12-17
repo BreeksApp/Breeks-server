@@ -27,7 +27,7 @@ public class ImageServiceImpl implements ImageService {
     }
 
     @Override
-    public boolean deleteImage(Integer id) {
+    public boolean deleteImage(Integer id, int userId) {
         if (imageRepository.existsById(id)) {
             imageRepository.delete(imageRepository.findById(id).get());
             return true;

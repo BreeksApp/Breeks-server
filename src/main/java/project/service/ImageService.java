@@ -7,7 +7,7 @@ import java.sql.Date;
 
 public interface ImageService {
     void addImage(Image image);
-    boolean deleteImage(Integer id);
+    boolean deleteImage(Integer id, int userId);
     boolean editImage(Integer id, Image newImage);
     boolean editImage(Date date, User user, Image newImage);
     Image findImage(Integer id);

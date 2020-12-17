@@ -52,7 +52,7 @@ public class AuthController {
             }
 
             if (user.getActivationCode() != null) {
-               return new ResponseEntity<>("User is not activated!", HttpStatus.NOT_MODIFIED);
+               return new ResponseEntity<>("User is not activated!", HttpStatus.TOO_EARLY);
             }
 
             String token = jwtTokenProvider.createToken(user, false, user.getRoles());

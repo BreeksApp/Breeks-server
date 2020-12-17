@@ -40,7 +40,7 @@ public class TimetableElementController {
                 timetableElement.setUser(null);
                 return new ResponseEntity<TimetableElement>(timetableElement, HttpStatus.CREATED);
             }
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
         catch (NotAddedToDatabase exception) {
             return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
@@ -57,7 +57,7 @@ public class TimetableElementController {
                     ? new ResponseEntity<>(HttpStatus.OK)
                     : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
         }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
     @PutMapping("/editTimetableElement/{id}")
@@ -71,7 +71,7 @@ public class TimetableElementController {
                     ? new ResponseEntity<TimetableElement>(timetableElement, HttpStatus.OK)
                     : new ResponseEntity<TimetableElement>(timetableElement, HttpStatus.NOT_MODIFIED);
         }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
     @GetMapping("/listOfTimetableElements")
@@ -89,7 +89,7 @@ public class TimetableElementController {
             List<TimetableElement> list = timetableElementService.listOfElements(new Date(timeInMs), user);
             return new ResponseEntity<>(list, HttpStatus.OK);
         }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
     private List<TimetableElement> getTimetableElementsForDay(User user, long timeInMs) {

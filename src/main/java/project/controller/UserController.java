@@ -44,7 +44,7 @@ public class UserController {
         if (activated) {
             return new ResponseEntity<>("User successfully activated!", HttpStatus.OK);
         }
-        return new ResponseEntity<>("Bad activation code!", HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>("Bad activation code!", HttpStatus.NOT_MODIFIED);
     }
 
     @DeleteMapping("/deleteUser/{id}")

@@ -53,7 +53,7 @@ public class BreeksLineServiceImpl implements BreeksLineService {
     public boolean editLine(Integer id, BreeksLine newLine, User user) throws NotAddedToDatabase {
         if (breeksLineRepository.existsById(id)) {
             BreeksLine bl = breeksLineRepository.findById(id).get();
-            if (newLine.getUser().getId() == user.getId()) {
+            if (bl.getUser().getId() == user.getId()) {
                 newLine.setLineId(id);
                 newLine.setUser(user);
                 for (BreekEmoji emoji : newLine.getEmojies()) {

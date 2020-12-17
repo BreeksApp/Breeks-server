@@ -21,7 +21,6 @@ public class ImageServiceImpl implements ImageService {
         if (imageFromDB != null) {
             image.setId(imageFromDB.getId());
             imageFromDB.setLinkToImage(image.getLinkToImage());
-            //imageRepository.delete(imageFromDB);
         }
         imageRepository.save(image);
     }
@@ -29,10 +28,13 @@ public class ImageServiceImpl implements ImageService {
     @Override
     public boolean deleteImage(Integer id, int userId) {
         if (imageRepository.existsById(id)) {
-            imageRepository.delete(imageRepository.findById(id).get());
-            return true;
+            Image image = imageRepository.findById(id).get();
+            if (image.getUser().getId() == userId) {
+                imageRepository.delete(imageRepository.findById(id).get());
+                return true;
+            }
         }
-        else return false;
+        return false;
     }
 
     @Override

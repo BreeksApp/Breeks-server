@@ -54,20 +54,6 @@ public class ImageController {
                     ? new ResponseEntity<>(HttpStatus.OK)
                     : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
         }
-        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-    }
-
-    @PutMapping("/editImage/{timeInMs}")
-    public ResponseEntity<?> editImage(@RequestHeader("Authorization") String bearerToken,
-                                       @PathVariable("timeInMs") long timeInMs,
-                                       @RequestBody Image image) {
-        User user = UserDetermination.determineUser(bearerToken, jwtTokenProvider, userDetailsService);
-        if (user != null) {
-            boolean updated = imageService.editImage(new Date(timeInMs), user, image);
-            return updated
-                    ? new ResponseEntity<>(HttpStatus.OK)
-                    : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
-        }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 

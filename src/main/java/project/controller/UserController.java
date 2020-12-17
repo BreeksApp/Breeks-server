@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.MailSendException;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import project.entity.User;
@@ -44,29 +45,6 @@ public class UserController {
         if (activated) {
             return new ResponseEntity<>("User successfully activated!", HttpStatus.OK);
         }
-        return new ResponseEntity<>("Bad activation code!", HttpStatus.NOT_MODIFIED);
-    }
-
-    @DeleteMapping("/deleteUser/{id}")
-    public ResponseEntity<?> deleteUser(@PathVariable(name = "id") int id) {
-        final boolean deleted = userDetailsService.deleteUser(id);
-        return deleted
-                ? new ResponseEntity<>(HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
-    }
-
-    @PutMapping("/editUser/{id}")
-    public ResponseEntity<?> editUser(@PathVariable(name = "id") int id,
-                                              @RequestBody User user) {
-        final boolean updated = userDetailsService.editUser(id, user);
-        return updated
-                ? new ResponseEntity<>(HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
-    }
-
-    @GetMapping("/listOfUsers")
-    public ResponseEntity<List<User>> getAllUsers() {
-        List<User> list = userDetailsService.listOfUsers();
-        return new ResponseEntity<>(list, HttpStatus.OK);
+        return new ResponseEntity<>("Bad activation code!", HttpStatus.NOT_FOUND);
     }
 }

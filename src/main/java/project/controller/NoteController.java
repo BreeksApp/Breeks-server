@@ -46,11 +46,16 @@ public class NoteController {
     }
 
     @DeleteMapping("/deleteNote/{id}")
-    public ResponseEntity<?> deleteNote(@PathVariable("id") int id) {
-        boolean deleted = noteService.deleteNote(id);
-        return deleted
-                ? new ResponseEntity<>(HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+    public ResponseEntity<?> deleteNote(@RequestHeader("Authorization") String bearerToken,
+                                        @PathVariable("id") int id) {
+        User user = UserDetermination.determineUser(bearerToken, jwtTokenProvider, userDetailsService);
+        if (user != null) {
+            boolean deleted = noteService.deleteNote(id, user.getId());
+            return deleted
+                    ? new ResponseEntity<>(HttpStatus.OK)
+                    : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+        }
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
     @PutMapping("/editNote")
@@ -64,19 +69,6 @@ public class NoteController {
                     : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
         }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-    }
-
-    @GetMapping("/listOfNotes")
-    public ResponseEntity<List<Note>> getAllNotes() {
-        List<Note> list = noteService.listOfNotes();
-        return new ResponseEntity<>(list, HttpStatus.OK);
-    }
-
-    @GetMapping("/getNote/{id}")
-    public ResponseEntity<Note> getNote(@PathVariable("id") int id) {
-        Note note = noteService.findNote(id);
-        if (note != null) return new ResponseEntity<>(note, HttpStatus.OK);
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 
     @GetMapping("/getNoteByDateAndPage/{timeInMs}/{page}")

@@ -8,8 +8,8 @@ import java.util.List;
 
 public interface BreeksLineService {
     void addLine(BreeksLine line);
-    boolean deleteLine(Integer id);
-    boolean editLine(Integer id, BreeksLine newLine);
+    boolean deleteLine(Integer id, int userId);
+    boolean editLine(Integer id, BreeksLine newLine, User userId);
     List<BreeksLine> listOfLines();
     List<BreeksLine> listOfLinesInWeek(Date date, User user);
     BreeksLine findBreeksLine(Date date, String description, User user);

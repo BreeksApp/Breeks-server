@@ -14,7 +14,7 @@ public class BreeksLine {
     @Column(nullable = false)
     private String description;
 
-    @Column(length = 65535, columnDefinition = "TEXT")
+    @Column(length = 131000, columnDefinition = "TEXT")
     private String effects;
 
     /*

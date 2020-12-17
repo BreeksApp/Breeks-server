@@ -38,30 +38,37 @@ public class BreeksLineServiceImpl implements BreeksLineService {
     }
 
     @Override
-    public boolean deleteLine(Integer id) {
+    public boolean deleteLine(Integer id, int userId) {
         if (breeksLineRepository.existsById(id)) {
-            breeksLineRepository.delete(breeksLineRepository.findById(id).get());
-            return true;
+            BreeksLine bl = breeksLineRepository.findById(id).get();
+            if (bl.getUser().getId() == userId) {
+                breeksLineRepository.delete(breeksLineRepository.findById(id).get());
+                return true;
+            }
         }
-        else return false;
+        return false;
     }
 
     @Override
-    public boolean editLine(Integer id, BreeksLine newLine) throws NotAddedToDatabase {
+    public boolean editLine(Integer id, BreeksLine newLine, User user) throws NotAddedToDatabase {
         if (breeksLineRepository.existsById(id)) {
-            newLine.setLineId(id);
-            for (BreekEmoji emoji : newLine.getEmojies()) {
-                if (!breekEmojiRepository.existsByEmojiNum(emoji.getEmojiNum())) {
-                    breekEmojiRepository.save(emoji);
+            BreeksLine bl = breeksLineRepository.findById(id).get();
+            if (bl.getUser().getId() == user.getId()) {
+                newLine.setLineId(id);
+                newLine.setUser(user);
+                for (BreekEmoji emoji : newLine.getEmojies()) {
+                    if (!breekEmojiRepository.existsByEmojiNum(emoji.getEmojiNum())) {
+                        breekEmojiRepository.save(emoji);
+                    }
+                    else {
+                        emoji.setId(breekEmojiRepository.findByEmojiNum(emoji.getEmojiNum()).getId());
+                    }
                 }
-                else {
-                    emoji.setId(breekEmojiRepository.findByEmojiNum(emoji.getEmojiNum()).getId());
-                }
+                breeksLineRepository.save(newLine);
+                return true;
             }
-            breeksLineRepository.save(newLine);
-            return true;
         }
-        else return false;
+        return false;
     }
 
     @Override

@@ -37,7 +37,6 @@ public class TimetableElementController {
             if (user != null) {
                 timetableElement.setUser(user);
                 timetableElementService.addElement(timetableElement);
-                timetableElement.setUser(null);
                 return new ResponseEntity<TimetableElement>(timetableElement, HttpStatus.CREATED);
             }
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
@@ -72,12 +71,6 @@ public class TimetableElementController {
                     : new ResponseEntity<TimetableElement>(timetableElement, HttpStatus.NOT_MODIFIED);
         }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-    }
-
-    @GetMapping("/listOfTimetableElements")
-    public ResponseEntity<List<TimetableElement>> getAllTimetableElements() {
-        List<TimetableElement> list = timetableElementService.listOfElements();
-        return new ResponseEntity<>(list, HttpStatus.OK);
     }
 
     @GetMapping("/listOfTimetableElements/{timeInMs}")

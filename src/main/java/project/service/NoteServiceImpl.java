@@ -27,35 +27,29 @@ public class NoteServiceImpl implements NoteService {
     }
 
     @Override
-    public boolean deleteNote(Integer id) {
+    public boolean deleteNote(Integer id, int userId) {
         if (noteRepository.existsById(id)) {
-            noteRepository.delete(noteRepository.findById(id).get());
-            return true;
+            Note note = noteRepository.findById(id).get();
+            if (note.getUser().getId() == userId) {
+                noteRepository.delete(noteRepository.findById(id).get());
+                return true;
+            }
         }
-        else return false;
-    }
-
-    @Override
-    public boolean editNote(Integer id, Note newNote) throws NotAddedToDatabase {
-        if (noteRepository.existsById(id)) {
-            newNote.setId(id);
-            noteRepository.save(newNote);
-            return true;
-        }
-        else return false;
+        return false;
     }
 
     @Override
     public boolean editNote(Date date, Byte page, User user, Note newNote) {
         if (noteRepository.existsByDateAndPageAndUser(date, page, user)) {
-            newNote.setId(
-                    noteRepository.findByDateAndPageAndUser(date, page, user).get().getId()
-            );
-            newNote.setUser(user);
-            noteRepository.save(newNote);
-            return true;
+            Note note = noteRepository.findByDateAndPageAndUser(date, page, user).get();
+            if (note.getUser().getId() == user.getId()) {
+                newNote.setId(note.getId());
+                newNote.setUser(user);
+                noteRepository.save(newNote);
+                return true;
+            }
         }
-        else return false;
+        return false;
     }
 
     @Override

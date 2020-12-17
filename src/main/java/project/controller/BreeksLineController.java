@@ -46,11 +46,19 @@ public class BreeksLineController {
     }
 
     @DeleteMapping("/deleteLine/{id}")
-    public ResponseEntity<?> deleteLine(@PathVariable(name = "id") int id) {
-        final boolean deleted = breeksLineService.deleteLine(id);
-        return deleted
-                ? new ResponseEntity<>(HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+    public ResponseEntity<?> deleteLine(@RequestHeader("Authorization") String bearerToken,
+                                        @PathVariable(name = "id") int id) {
+        User user = UserDetermination.determineUser(bearerToken, jwtTokenProvider, userDetailsService);
+        if (user != null) {
+            final boolean deleted = breeksLineService.deleteLine(id, user.getId());
+            if (user != null) {
+                return deleted
+                        ? new ResponseEntity<>(HttpStatus.OK)
+                        : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+            }
+        }
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+
     }
 
     @PutMapping("/editLine/{id}")
@@ -59,8 +67,7 @@ public class BreeksLineController {
                                       @RequestBody BreeksLine line) {
         User user = UserDetermination.determineUser(bearerToken, jwtTokenProvider, userDetailsService);
         if (user != null) {
-            line.setUser(user);
-            final boolean updated = breeksLineService.editLine(id, line);
+            final boolean updated = breeksLineService.editLine(id, line, user);
             return updated
                     ? new ResponseEntity<>(line, HttpStatus.OK)
                     : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);

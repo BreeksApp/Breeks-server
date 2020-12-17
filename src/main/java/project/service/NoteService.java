@@ -8,8 +8,7 @@ import java.util.List;
 
 public interface NoteService {
     void addNote(Note note);
-    boolean deleteNote(Integer id);
-    boolean editNote(Integer id, Note newNote);
+    boolean deleteNote(Integer id, int userId);
     boolean editNote(Date date, Byte page, User user, Note newNote);
     List<Note> listOfNotes();
     Note findNote(Integer id);

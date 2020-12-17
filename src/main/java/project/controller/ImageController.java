@@ -45,21 +45,12 @@ public class ImageController {
     }
 
     @DeleteMapping("/deleteImage/{id}")
-    public ResponseEntity<?> deleteImage(@PathVariable("id") int id) {
-        boolean deleted = imageService.deleteImage(id);
-        return deleted
-                ? new ResponseEntity<>(HttpStatus.OK)
-                : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
-    }
-
-    @PutMapping("/editImage/{timeInMs}")
-    public ResponseEntity<?> editImage(@RequestHeader("Authorization") String bearerToken,
-                                       @PathVariable("timeInMs") long timeInMs,
-                                       @RequestBody Image image) {
+    public ResponseEntity<?> deleteImage(@RequestHeader("Authorization") String bearerToken,
+                                         @PathVariable("id") int id) {
         User user = UserDetermination.determineUser(bearerToken, jwtTokenProvider, userDetailsService);
         if (user != null) {
-            boolean updated = imageService.editImage(new Date(timeInMs), user, image);
-            return updated
+            boolean deleted = imageService.deleteImage(id, user.getId());
+            return deleted
                     ? new ResponseEntity<>(HttpStatus.OK)
                     : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
         }

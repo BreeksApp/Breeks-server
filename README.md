@@ -5,7 +5,6 @@
 Ссылки:  
 * [Десктоп Breeks](https://github.com/BreeksApp/Breeks-desktop)
 * [Презентация приложения](https://github.com/BreeksApp/Breeks-presentation)
-* [Статья на хабре]()
 ## Запуск тестов
 `mvn clean test`  
 

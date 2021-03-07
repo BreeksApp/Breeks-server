@@ -5,18 +5,5 @@
 Ссылки:  
 * [Десктоп Breeks](https://github.com/BreeksApp/Breeks-desktop)
 * [Презентация приложения](https://github.com/BreeksApp/Breeks-presentation)
-* [Статья на хабре]()
-## Запуск тестов
-`mvn clean test`  
-
-Как Unit, так и интеграционных. Они находятся в директории `/src/tests/project/tests/`
-
-## Сборка проекта
-`mvn clean compile`  
-
-Рекомендуется запускать в IntelliJ IDEA.
-
-## Запуск проекта
-`mvn exec:java -Dexec.mainClass="project.Breeks_server"`  
-
-Рекомендуется запускать в IntelliJ IDEA.
+* [Статья о приложении на Хабре](https://habr.com/ru/post/534032/)
+* [Статья о приложении на Medium](https://yarpylaev.medium.com/breeks-построй-свою-неделю-333cd15a6c90)

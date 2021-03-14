@@ -5,19 +5,19 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import project.controller.utils.UserDetermination;
-import project.entity.MacAddresses;
+import project.entity.SessionKey;
 import project.entity.User;
 import project.exception.NotAddedToDatabase;
 import project.security.jwt.JwtTokenProvider;
 import project.service.CustomUserDetailsService;
-import project.service.MacAddressesService;
+import project.service.SessionKeyService;
 
 @RestController
 @RequestMapping("/session")
-public class MacAddressesController {
+public class SessionKeyController {
 
     @Autowired
-    private MacAddressesService macAddressesService;
+    private SessionKeyService sessionKeyService;
 
     @Autowired
     private CustomUserDetailsService userDetailsService;
@@ -25,23 +25,27 @@ public class MacAddressesController {
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
 
-    @GetMapping("/findAddress")
-    public ResponseEntity<?> findAddress(@RequestBody MacAddresses address) {
-        if (macAddressesService.existsByAddress(address.getAddress())) {
+    @GetMapping("/findKey")
+    public ResponseEntity<?> findKey(@RequestBody SessionKey key) {
+        if (sessionKeyService.existsByKey(key.getKey())) {
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    @PostMapping("/addAddress")
-    public ResponseEntity<MacAddresses> addAddress(@RequestHeader("Authorization") String bearerToken,
-                                                   @RequestBody MacAddresses address) {
+    @PostMapping("/generateKey")
+    public ResponseEntity<SessionKey> generateKey(@RequestHeader("Authorization") String bearerToken,
+                                                 @RequestBody SessionKey key) {
         try {
             User user = UserDetermination.determineUser(bearerToken, jwtTokenProvider, userDetailsService);
             if (user != null) {
-                address.setUser(user);
-                macAddressesService.addAddress(address);
-                return new ResponseEntity<>(address, HttpStatus.OK);
+                if (key != null && sessionKeyService.existsByKey(key.getKey())) {
+                    return new ResponseEntity<>(key, HttpStatus.OK);
+                }
+
+                key = sessionKeyService.generateKey(user);
+
+                return new ResponseEntity<>(key, HttpStatus.OK);
             }
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
@@ -50,9 +54,9 @@ public class MacAddressesController {
         }
     }
 
-    @DeleteMapping("/deleteAddress")
-    public ResponseEntity<?> deleteAddress(@RequestBody MacAddresses address) {
-        if (macAddressesService.deleteAddress(address.getAddress())) {
+    @DeleteMapping("/deleteKey")
+    public ResponseEntity<?> deleteKey(@RequestBody SessionKey key) {
+        if (sessionKeyService.deleteKey(key.getKey())) {
             return new ResponseEntity<>(HttpStatus.OK);
         }
         return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);

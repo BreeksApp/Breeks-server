@@ -3,29 +3,29 @@ package project.entity;
 import javax.persistence.*;
 
 @Entity
-public class MacAddresses {
+public class SessionKey {
     @Id
     @Column(nullable = false, unique = true)
-    private String address;
+    private String key;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
 
-    public MacAddresses() {
+    public SessionKey() {
 
     }
 
-    public MacAddresses(String address, User user) {
-        this.address = address;
+    public SessionKey(String key, User user) {
+        this.key = key;
         this.user = user;
     }
 
-    public String getAddress() {
-        return address;
+    public String getKey() {
+        return key;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public User getUser() {

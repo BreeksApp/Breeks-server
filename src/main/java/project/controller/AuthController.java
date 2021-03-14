@@ -10,16 +10,15 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import project.controller.requests.AuthRequest;
 import project.controller.requests.RefreshRequest;
+import project.entity.SessionKey;
 import project.entity.User;
 import project.exception.InvalidJwtAuthenticationException;
 import project.repository.UserRepository;
 import project.security.jwt.JwtTokenProvider;
+import project.service.SessionKeyService;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -39,6 +38,9 @@ public class AuthController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private SessionKeyService sessionKeyService;
 
     @PostMapping("/signin")
     public ResponseEntity<?> signIn(@RequestBody AuthRequest request) {
@@ -67,6 +69,19 @@ public class AuthController {
             System.out.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
+    }
+
+    @PostMapping("/sessionKey")
+    public ResponseEntity<?> signIn(@RequestBody SessionKey key) {
+        if (sessionKeyService.existsByKey(key.getKey())) {
+            User user = key.getUser();
+            String token = jwtTokenProvider.createToken(user, false, user.getRoles());
+            String tokenRefresh = jwtTokenProvider.createToken(user, true, user.getRoles());
+
+            // let's send the token back to the user
+            return ResponseEntity.ok(createModel(user.getUsername(), token, tokenRefresh));
+        }
+        return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
     }
 
     @PostMapping("/refresh")

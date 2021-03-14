@@ -25,14 +25,6 @@ public class SessionKeyController {
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
 
-    @GetMapping("/findKey")
-    public ResponseEntity<?> findKey(@RequestBody SessionKey key) {
-        if (sessionKeyService.existsByKey(key.getKey())) {
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-    }
-
     @PostMapping("/generateKey")
     public ResponseEntity<SessionKey> generateKey(@RequestHeader("Authorization") String bearerToken,
                                                  @RequestBody SessionKey key) {

@@ -46,11 +46,10 @@ public class SessionKeyController {
         }
     }
 
-    @DeleteMapping("/deleteKey")
-    public ResponseEntity<?> deleteKey(@RequestBody SessionKey key) {
-        if (sessionKeyService.deleteKey(key.getKey())) {
-            return new ResponseEntity<>(HttpStatus.OK);
-        }
-        return new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
+    @DeleteMapping("/deleteKey/{key}")
+    public ResponseEntity<?> deleteKey(@PathVariable(name = "key") String key) {
+        return sessionKeyService.deleteKey(key)
+                ? new ResponseEntity<>(HttpStatus.OK)
+                : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
     }
 }

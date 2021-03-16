@@ -51,11 +51,9 @@ public class BreeksLineController {
         User user = UserDetermination.determineUser(bearerToken, jwtTokenProvider, userDetailsService);
         if (user != null) {
             final boolean deleted = breeksLineService.deleteLine(id, user.getId());
-            if (user != null) {
-                return deleted
-                        ? new ResponseEntity<>(HttpStatus.OK)
-                        : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
-            }
+            return deleted
+                    ? new ResponseEntity<>(HttpStatus.OK)
+                    : new ResponseEntity<>(HttpStatus.NOT_MODIFIED);
         }
         return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
 

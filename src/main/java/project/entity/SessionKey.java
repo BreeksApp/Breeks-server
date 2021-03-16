@@ -2,7 +2,7 @@ package project.entity;
 
 import javax.persistence.*;
 
-@Entity
+@Entity(name = "session_key")
 public class SessionKey {
     @Id
     @Column(nullable = false, unique = true)

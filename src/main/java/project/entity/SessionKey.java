@@ -6,7 +6,7 @@ import javax.persistence.*;
 public class SessionKey {
     @Id
     @Column(nullable = false, unique = true)
-    private String key;
+    private String keyUUID;
 
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
@@ -15,17 +15,17 @@ public class SessionKey {
 
     }
 
-    public SessionKey(String key, User user) {
-        this.key = key;
+    public SessionKey(String keyUUID, User user) {
+        this.keyUUID = keyUUID;
         this.user = user;
     }
 
     public String getKey() {
-        return key;
+        return keyUUID;
     }
 
-    public void setKey(String key) {
-        this.key = key;
+    public void setKey(String keyUUID) {
+        this.keyUUID = keyUUID;
     }
 
     public User getUser() {

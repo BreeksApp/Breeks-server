@@ -73,8 +73,9 @@ public class AuthController {
 
     @PostMapping("/sessionKey")
     public ResponseEntity<?> signIn(@RequestBody SessionKey key) {
-        if (sessionKeyService.existsByKey(key.getKey())) {
-            User user = key.getUser();
+        SessionKey keyFromDB = sessionKeyService.findByKey(key.getKey());
+        if (keyFromDB != null) {
+            User user = keyFromDB.getUser();
             String token = jwtTokenProvider.createToken(user, false, user.getRoles());
             String tokenRefresh = jwtTokenProvider.createToken(user, true, user.getRoles());
 

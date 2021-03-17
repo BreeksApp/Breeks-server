@@ -7,4 +7,5 @@ public interface SessionKeyService {
     boolean existsByKey(String key);
     SessionKey generateKey(User user);
     boolean deleteKey(String key);
+    SessionKey findByKey(String key);
 }

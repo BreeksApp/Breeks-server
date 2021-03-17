@@ -6,7 +6,6 @@ import project.entity.SessionKey;
 import project.entity.User;
 import project.repository.SessionKeyRepository;
 
-import java.util.Random;
 import java.util.UUID;
 
 @Service
@@ -34,5 +33,13 @@ public class SessionKeyServiceImpl implements SessionKeyService {
             return true;
         }
         return false;
+    }
+
+    @Override
+    public SessionKey findByKey(String key) {
+        if (existsByKey(key)) {
+            return sessionKeyRepository.findById(key).get();
+        }
+        return null;
     }
 }

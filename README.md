@@ -14,5 +14,5 @@ Breeks is a modular desktop application that provides a handy set of personal de
 The application is developed in the cross-platform Qt framework in C ++, belongs to the "Planning and Organization" category. The app is based on two popular scheduling systems: Running List and Bullet Journal. The unit of time for an organization is a week.
 
 ## Links
-- [Desktop UI Repo](https://github.com/BreeksApp/Breeks-deskto)
+- [Desktop UI Repo](https://github.com/BreeksApp/Breeks-desktop)
 - Papers about Breeks: [Habr RU](https://habr.com/ru/post/534032/) and [Medium RU](https://yarpylaev.medium.com/breeks-построй-свою-неделю-333cd15a6c90)

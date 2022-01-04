@@ -47,17 +47,17 @@ public class CustomUserDetailsService implements UserDetailsService {
         }
         catch (UsernameNotFoundException e) {
             user.setRoles(Collections.singletonList("ROLE_USER"));
-            user.setActivationCode(UUID.randomUUID().toString());
+//            user.setActivationCode(UUID.randomUUID().toString());
 
             userRepository.save(user);
 
-            if (!StringUtils.isEmpty(user.getUsername())) {
-                String message = String.format(
-                        mailProperties.getDefaultMessage(), user.getUsername(),
-                        user.getActivationCode()
-                );
-                mailSender.send(user.getUsername(), "Activation code", message);
-            }
+//            if (!StringUtils.isEmpty(user.getUsername())) {
+//                String message = String.format(
+//                        mailProperties.getDefaultMessage(), user.getUsername(),
+//                        user.getActivationCode()
+//                );
+//                mailSender.send(user.getUsername(), "Activation code", message);
+//            }
         }
     }
 
